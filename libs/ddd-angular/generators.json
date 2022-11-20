@@ -24,6 +24,11 @@
       "factory": "./src/generators/ddd-api/generator",
       "schema": "./src/generators/ddd-api/schema.json",
       "description": "Extension of the ddd api from angular architects"
+    },
+    "ddd-shell": {
+      "factory": "./src/generators/ddd-shell/generator",
+      "schema": "./src/generators/ddd-shell/schema.json",
+      "description": "shell inspired from beslogic"
     }
   }
 }
