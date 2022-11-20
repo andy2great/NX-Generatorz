@@ -19,6 +19,7 @@ export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
     app: APP_NAME,
     standalone: false,
     entity: options.name,
+    type: 'buildable'
   });
   await removeGenerator(tree, {
     projectName: APP_NAME,

@@ -9,6 +9,11 @@
       "factory": "./src/generators/ddd-feature/generator",
       "schema": "./src/generators/ddd-feature/schema.json",
       "description": "Extension of the ddd-feature from the angular architects repo"
+    },
+    "ddd-ui": {
+      "factory": "./src/generators/ddd-ui/generator",
+      "schema": "./src/generators/ddd-ui/schema.json",
+      "description": "Extension from the ddd-ui lib"
     }
   }
 }
