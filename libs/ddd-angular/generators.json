@@ -14,6 +14,11 @@
       "factory": "./src/generators/ddd-ui/generator",
       "schema": "./src/generators/ddd-ui/schema.json",
       "description": "Extension from the ddd-ui lib"
+    },
+    "ddd-util": {
+      "factory": "./src/generators/ddd-util/generator",
+      "schema": "./src/generators/ddd-util/schema.json",
+      "description": "Extension of the angular ddd lib from angular architects"
     }
   }
 }
