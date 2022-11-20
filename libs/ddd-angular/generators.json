@@ -4,6 +4,11 @@
       "factory": "./src/generators/ddd-domain/generator",
       "schema": "./src/generators/ddd-domain/schema.json",
       "description": "Extends from angular ddd architects"
+    },
+    "ddd-feature": {
+      "factory": "./src/generators/ddd-feature/generator",
+      "schema": "./src/generators/ddd-feature/schema.json",
+      "description": "Extension of the ddd-feature from the angular architects repo"
     }
   }
 }
