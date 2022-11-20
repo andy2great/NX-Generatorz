@@ -6,5 +6,6 @@
   },
   "devDependencies": {
     "@angular-architects/ddd": "^3.0.0"
-  }
+  },
+  "generators": "generators.json"
 }

@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "ddd-domain": {
+      "factory": "./src/generators/ddd-domain/generator",
+      "schema": "./src/generators/ddd-domain/schema.json",
+      "description": "Extends from angular ddd architects"
+    }
+  }
+}
