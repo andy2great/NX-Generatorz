@@ -19,6 +19,11 @@
       "factory": "./src/generators/ddd-util/generator",
       "schema": "./src/generators/ddd-util/schema.json",
       "description": "Extension of the angular ddd lib from angular architects"
+    },
+    "ddd-api": {
+      "factory": "./src/generators/ddd-api/generator",
+      "schema": "./src/generators/ddd-api/schema.json",
+      "description": "Extension of the ddd api from angular architects"
     }
   }
 }
