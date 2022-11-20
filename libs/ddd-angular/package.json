@@ -1,0 +1,10 @@
+{
+  "name": "@pufferfish/ddd-angular",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-architects/ddd": "^3.0.0"
+  }
+}

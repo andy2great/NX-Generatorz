@@ -1,0 +1,35 @@
+{
+  "name": "ddd-angular",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ddd-angular/src",
+  "prefix": "nx-generatorz",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/ddd-angular"],
+      "options": {
+        "project": "libs/ddd-angular/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ddd-angular/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ddd-angular/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ddd-angular/src/**/*.ts",
+          "libs/ddd-angular/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
