@@ -1,13 +1,32 @@
 {
-  "name": "@pufferfish/ddd-angular",
+  "private": false,
+  "name": "@puffyfish/ddd-angular",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-architects/ddd": "^3.0.0",
-    "@nrwl/workspace": "15.2.1",
-    "@nrwl/angular": "15.2.1"
+    "@nrwl/angular": "15.2.1",
+    "@nrwl/workspace": "15.2.1"
   },
-  "generators": "generators.json"
+  "generators": "generators.json",
+  "description": "This library was generated with [Nx](https://nx.dev).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andy2great/NX-Generatorz.git"
+  },
+  "keywords": [
+    "Generators"
+  ],
+  "author": "pufferfish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andy2great/NX-Generatorz/issues"
+  },
+  "homepage": "https://github.com/andy2great/NX-Generatorz#readme"
 }

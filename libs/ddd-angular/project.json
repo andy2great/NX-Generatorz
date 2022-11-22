@@ -6,10 +6,42 @@
   "prefix": "nx-generatorz",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/ddd-angular"],
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/ddd-angular"
+      ],
       "options": {
-        "project": "libs/ddd-angular/ng-package.json"
+        "outputPath": "dist/libs/ddd-angular",
+        "main": "libs/ddd-angular/src/index.ts",
+        "tsConfig": "libs/ddd-angular/tsconfig.lib.json",
+        "assets": [
+          "libs/ddd-angular/*.md",
+          {
+            "input": "./libs/ddd-angular/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/ddd-angular/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/ddd-angular",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/ddd-angular",
+            "glob": "collection.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/ddd-angular",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       },
       "configurations": {
         "production": {
