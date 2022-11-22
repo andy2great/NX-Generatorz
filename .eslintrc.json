@@ -23,6 +23,10 @@
               {
                 "sourceTag": "domain:bolo",
                 "onlyDependOnLibsWithTags": ["domain:bolo", "domain:shared"]
+              },
+              {
+                "sourceTag": "domain:bruh",
+                "onlyDependOnLibsWithTags": ["domain:bruh", "domain:shared"]
               }
             ]
           }
