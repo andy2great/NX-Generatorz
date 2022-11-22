@@ -1,33 +1,33 @@
 {
   "generators": {
-    "ddd-domain": {
-      "factory": "./src/generators/ddd-domain/generator",
-      "schema": "./src/generators/ddd-domain/schema.json",
+    "domain": {
+      "factory": "./src/generators/domain/generator",
+      "schema": "./src/generators/domain/schema.json",
       "description": "Extends from angular ddd architects"
     },
-    "ddd-feature": {
-      "factory": "./src/generators/ddd-feature/generator",
-      "schema": "./src/generators/ddd-feature/schema.json",
-      "description": "Extension of the ddd-feature from the angular architects repo"
+    "feature": {
+      "factory": "./src/generators/feature/generator",
+      "schema": "./src/generators/feature/schema.json",
+      "description": "Extension of the feature from the angular architects repo"
     },
-    "ddd-ui": {
-      "factory": "./src/generators/ddd-ui/generator",
-      "schema": "./src/generators/ddd-ui/schema.json",
-      "description": "Extension from the ddd-ui lib"
+    "ui": {
+      "factory": "./src/generators/ui/generator",
+      "schema": "./src/generators/ui/schema.json",
+      "description": "Extension from the ui lib"
     },
-    "ddd-util": {
-      "factory": "./src/generators/ddd-util/generator",
-      "schema": "./src/generators/ddd-util/schema.json",
+    "util": {
+      "factory": "./src/generators/util/generator",
+      "schema": "./src/generators/util/schema.json",
       "description": "Extension of the angular ddd lib from angular architects"
     },
-    "ddd-api": {
-      "factory": "./src/generators/ddd-api/generator",
-      "schema": "./src/generators/ddd-api/schema.json",
+    "api": {
+      "factory": "./src/generators/api/generator",
+      "schema": "./src/generators/api/schema.json",
       "description": "Extension of the ddd api from angular architects"
     },
-    "ddd-shell": {
-      "factory": "./src/generators/ddd-shell/generator",
-      "schema": "./src/generators/ddd-shell/schema.json",
+    "shell": {
+      "factory": "./src/generators/shell/generator",
+      "schema": "./src/generators/shell/schema.json",
       "description": "shell inspired from beslogic"
     }
   }

@@ -7,9 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
-      "outputs": [
-        "{workspaceRoot}/dist/libs/ddd-angular"
-      ],
+      "outputs": ["{workspaceRoot}/dist/libs/ddd-angular"],
       "options": {
         "outputPath": "dist/libs/ddd-angular",
         "main": "libs/ddd-angular/src/index.ts",

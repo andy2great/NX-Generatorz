@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pufferfish/ddd-angular": ["libs/ddd-angular/src/index.ts"]
+      "@puffyfish/ddd-angular": ["libs/ddd-angular/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

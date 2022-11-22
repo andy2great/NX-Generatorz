@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@puffyfish/ddd-angular",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "dependencies": {
     "tslib": "^2.3.0"
   },
@@ -23,7 +23,7 @@
   "keywords": [
     "Generators"
   ],
-  "author": "pufferfish",
+  "author": "puffyfish",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/andy2great/NX-Generatorz/issues"
