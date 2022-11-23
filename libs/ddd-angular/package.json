@@ -1,14 +1,13 @@
 {
   "private": false,
-  "name": "@nx-generatorz/ddd-angular",
-  "version": "3.0.0",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
+  "name": "@puffyfish/ddd-angular",
+  "version": "2.0.0",
   "peerDependencies": {
-    "@angular-architects/ddd": "^3.0.0",
-    "@nrwl/angular": "15.2.1",
-    "@nrwl/workspace": "15.2.1"
+    "@angular-architects/ddd": "^2.0.0",
+    "@nrwl/angular": "^14.0.0",
+    "@nrwl/workspace": "^14.0.0",
+    "@nrwl/devkit": "^14.0.0",
+    "tslib": "2.4.1"
   },
   "generators": "generators.json",
   "description": "This library was generated with [Nx](https://nx.dev).",
