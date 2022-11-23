@@ -30,7 +30,7 @@
       "style": "less"
     }
   },
-  "defaultProject": "angular-ddd",
+  "defaultProject": "ddd-angular",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {

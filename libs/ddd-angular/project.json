@@ -1,40 +1,40 @@
 {
-  "name": "angular-ddd",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/angular-ddd/src",
+  "name": "ddd-angular",
+  "sourceRoot": "libs/ddd-angular/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/angular-ddd",
-        "main": "libs/angular-ddd/src/index.ts",
-        "tsConfig": "libs/angular-ddd/tsconfig.lib.json",
+        "outputPath": "dist/libs/ddd-angular",
+        "main": "libs/ddd-angular/src/index.ts",
+        "tsConfig": "libs/ddd-angular/tsconfig.lib.json",
         "assets": [
-          "libs/angular-ddd/*.md",
+          "libs/ddd-angular/*.md",
           {
-            "input": "./libs/angular-ddd/src",
+            "input": "./libs/ddd-angular/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./libs/angular-ddd/src",
+            "input": "./libs/ddd-angular/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./libs/angular-ddd",
+            "input": "./libs/ddd-angular",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./libs/angular-ddd",
+            "input": "./libs/ddd-angular",
             "glob": "collection.json",
             "output": "."
           },
           {
-            "input": "./libs/angular-ddd",
+            "input": "./libs/ddd-angular",
             "glob": "executors.json",
             "output": "."
           }
@@ -45,7 +45,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/angular-ddd/**/*.ts"]
+        "lintFilePatterns": ["libs/ddd-angular/**/*.ts"]
       }
     }
   },

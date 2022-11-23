@@ -1,3 +1,3 @@
 export interface DddUiGeneratorSchema {
-    name: string;
+  name: string;
 }

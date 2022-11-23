@@ -1,6 +1,6 @@
 {
   "version": 2,
   "projects": {
-    "angular-ddd": "libs/angular-ddd"
+    "ddd-angular": "libs/ddd-angular"
   }
 }

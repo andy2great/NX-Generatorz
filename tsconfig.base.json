@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-generatorz/angular-ddd": ["libs/angular-ddd/src/index.ts"]
+      "@nx-generatorz/ddd-angular": ["libs/ddd-angular/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

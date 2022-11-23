@@ -24,8 +24,5 @@
       "x-prompt": "What domain would you like to use?"
     }
   },
-  "required": [
-    "name",
-    "domain"
-  ]
+  "required": ["name", "domain"]
 }

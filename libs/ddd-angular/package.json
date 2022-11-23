@@ -1,7 +1,7 @@
 {
   "private": false,
-  "name": "@puffyfish/ddd-angular",
-  "version": "0.0.13",
+  "name": "@nx-generatorz/ddd-angular",
+  "version": "3.0.0",
   "dependencies": {
     "tslib": "^2.3.0"
   },

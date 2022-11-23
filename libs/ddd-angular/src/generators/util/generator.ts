@@ -1,6 +1,4 @@
-import {
-  Tree,
-} from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import { DddUtilGeneratorSchema } from './schema';
 import dddGenerator from '@angular-architects/ddd/src/generators/util';
 
@@ -9,6 +7,6 @@ export default async function (tree: Tree, options: DddUtilGeneratorSchema) {
     ...options,
     type: 'buildable',
     shared: true,
-    standalone: false
-  })
+    standalone: false,
+  });
 }

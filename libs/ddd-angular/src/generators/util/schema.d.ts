@@ -1,3 +1,3 @@
 export interface DddUtilGeneratorSchema {
-    name: string;
+  name: string;
 }

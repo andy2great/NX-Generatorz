@@ -1,4 +1,4 @@
 export interface DddShellGeneratorSchema {
-    name: string;
-    domain: string;
+  name: string;
+  domain: string;
 }
