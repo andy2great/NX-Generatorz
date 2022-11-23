@@ -22,7 +22,7 @@
       "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
-      "linter": "eslint",
+      "linter": "eslint"
     },
     "@nrwl/angular:component": {
       "style": "less"
