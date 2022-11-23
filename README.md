@@ -69,7 +69,7 @@ Run `ng build my-app` to build the project. The build artifacts will be stored i
 
 ## Running unit tests
 
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+Run `ng test my-app` to execute no tests, because we don't test
 
 Run `nx affected:test` to execute the unit tests affected by a change.
 
