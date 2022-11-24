@@ -3,10 +3,13 @@ import { DddFeatureGeneratorSchema } from './schema';
 import dddFeatureGenerator from '@angular-architects/ddd/src/generators/feature';
 import { applicationGenerator } from '@nrwl/angular/generators';
 import { removeGenerator } from '@nrwl/workspace';
+import { guardValidDomain } from '../../helpers';
 
 const APP_NAME = 'bobby-john-boratos';
 
 export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
+  guardValidDomain(tree, options.domain);
+
   await applicationGenerator(tree, {
     name: APP_NAME,
     unitTestRunner: 'none' as any,
