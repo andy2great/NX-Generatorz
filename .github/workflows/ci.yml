@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ env.node_version }}
         registry-url: 'https://registry.npmjs.org'
+    - run: npm install
     - run: npx nx run ddd-angular:build
     - run: cd dist/libs/ddd-angular/
     - name: Version and publish to npm
