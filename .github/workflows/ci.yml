@@ -1,29 +1,38 @@
-name: CI
+name: Version and Release
 
 on:
-  push:
-    branches:
-      - 9-can-we-get-a-ci-going
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      newversion:
+        description: 'Semantic Version Bump Type (major minor patch)'
+        required: true
+
+env:
+  node_version: lts/*
+  
+concurrency: # prevent concurrent releases
+  group: npm-bump
+  cancel-in-progress: true
 
 jobs:
-  main:
-    name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.8
-    with:
-      number-of-agents: 3
-      init-commands: |
-        npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
-      parallel-commands: |
-        npx nx-cloud record -- npx nx workspace-lint
-        npx nx-cloud record -- npx nx format:check
-      parallel-commands-on-agents: |
-        npx nx affected --target=lint --parallel=3
-        npx nx affected --target=test --parallel=3 --ci --code-coverage
-        npx nx affected --target=build --parallel=3
-
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.8
-    with:
-      number-of-agents: 3
+  version_and_release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Use Node.js ${{ env.node_version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.node_version }}
+        registry-url: 'https://registry.npmjs.org'
+    - run: npx nx run ddd-angular:build
+    - run: cd dist/libs/ddd-angular/
+    - name: Version and publish to npm
+      uses: bcomnes/npm-bump@v2
+      with:
+        git_email: matthieu.pauze@gmail.com
+        git_username: ${{ github.actor }}
+        newversion: ${{ github.event.inputs.newversion }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        npm_token: ${{ secrets.NPM_TOKEN }}
