@@ -1,4 +1,4 @@
-import { Tree, readJson } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 export const guardValidDomain = (tree: Tree, domain: string) => {
   if (!domainExist(tree, domain)) throw new Error('Domain does not exist');
@@ -6,6 +6,6 @@ export const guardValidDomain = (tree: Tree, domain: string) => {
 }
 
 export const domainExist = (tree: Tree, domain: string) => {
-  const tags = readJson(tree, `./libs/${domain}/domain/project.json`).tags;
-  return tags.includes('type:domain-logic') && tags.includes(`domain:${domain}`);
+  const tags = readProjectConfiguration(tree, domain).tags;
+  return tags?.includes('type:domain-logic');
 }
