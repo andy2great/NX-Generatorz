@@ -17,7 +17,10 @@
     "domain": {
       "type": "string",
       "description": "The domain to add the feature",
-      "x-prompt": "What domain would you like to use?"
+      "x-prompt": "What domain would you like to use?",
+      "$default": {
+        "$source": "projectName"
+      }
     }
   },
   "required": [

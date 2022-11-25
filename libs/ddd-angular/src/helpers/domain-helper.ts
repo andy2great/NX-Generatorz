@@ -1,7 +1,7 @@
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 export const guardValidDomain = (tree: Tree, domain: string) => {
-  if (!domainExist(tree, domain)) throw new Error('Domain does not exist');
+  if (!domainExist(tree, domain)) throw new Error('Invalid domain');
   if (domain === 'shared') throw new Error('Shared cannot be a domain');
 }
 
