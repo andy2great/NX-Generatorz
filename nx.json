@@ -1,7 +1,7 @@
 {
   "npmScope": "nx-generatorz",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "cli": {
     "packageManager": "npm"
