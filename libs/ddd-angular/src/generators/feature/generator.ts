@@ -3,7 +3,6 @@ import { DddFeatureGeneratorSchema } from './schema';
 import dddFeatureGenerator from '@angular-architects/ddd/src/generators/feature';
 import { guardValidDomain } from '../../helpers';
 
-
 export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
   guardValidDomain(tree, options.domain);
 
