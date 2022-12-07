@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Rename",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The project to be renamed",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which project would you like to rename?",
+      "x-dropdown": "projects"
+    },
+    "rename": {
+      "type": "string",
+      "description": "The new name of the project",
+      "x-prompt": "What name would you like to rename the project to?"
+    }
+  },
+  "required": [
+    "name",
+    "rename"
+  ]
+}
