@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "rename": {
-      "factory": "./src/generators/rename/generator",
-      "schema": "./src/generators/rename/schema.json",
-      "description": "Allows to rename a project and the references"
-    }
-  }
-}

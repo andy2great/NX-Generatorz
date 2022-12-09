@@ -2,10 +2,9 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "Rename",
-  "title": "",
   "type": "object",
   "properties": {
-    "name": {
+    "project": {
       "type": "string",
       "description": "The project to be renamed",
       "$default": {
@@ -17,12 +16,21 @@
     },
     "rename": {
       "type": "string",
-      "description": "The new name of the project",
+      "description": "The new name of the targeted folder",
       "x-prompt": "What name would you like to rename the project to?"
+    },
+    "target": {
+      "type": "string",
+      "description": "The type of folder that needs to be renamed. \"project\" will rename the targeted project.",
+      "enum": [
+        "project"
+      ],
+      "default": "project"
     }
   },
   "required": [
-    "name",
-    "rename"
+    "project",
+    "rename",
+    "target"
   ]
 }

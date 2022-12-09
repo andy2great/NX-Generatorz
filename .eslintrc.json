@@ -15,6 +15,18 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "domain:rwar",
+                "onlyDependOnLibsWithTags": ["domain:rwar", "domain:shared"]
+              },
+              {
+                "sourceTag": "domain:test",
+                "onlyDependOnLibsWithTags": ["domain:test", "domain:shared"]
+              },
+              {
+                "sourceTag": "domain:test",
+                "onlyDependOnLibsWithTags": ["domain:test", "domain:shared"]
               }
             ]
           }
