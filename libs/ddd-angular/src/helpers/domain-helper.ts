@@ -9,3 +9,9 @@ export const domainExist = (tree: Tree, domain: string) => {
   const tags = readProjectConfiguration(tree, domain).tags;
   return tags?.includes('type:domain-logic');
 }
+
+export const domainNameFromProject = (tree: Tree, projectName: string) => {
+  const domainName = readProjectConfiguration(tree, projectName).tags?.find((tag) => tag.startsWith('domain:'))?.split(':')[1];
+  if (!domainName) throw new Error('Invalid domain');
+  return domainName;
+}
