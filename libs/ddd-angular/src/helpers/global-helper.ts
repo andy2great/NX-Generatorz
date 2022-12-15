@@ -21,7 +21,7 @@ export const findByFileName = (
 export const removeReadmes = (tree: Tree, projectName: string) => {
   const projectRoot = readProjectConfiguration(tree, projectName).root;
   if (!projectRoot)
-    throw new Error('SourceRoot could not be found inside of Project');
+    throw new Error("Project doesn't have a root");
   const readmes = findByFileName(tree, projectRoot, 'README.md');
   readmes.forEach((fileName) => tree.delete(fileName));
 };
