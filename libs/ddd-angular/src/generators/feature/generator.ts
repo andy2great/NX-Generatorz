@@ -19,5 +19,5 @@ export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
     entity: options.name,
     type: 'buildable',
   });
-  removeFiles(tree, `${options.domain}-${options.name}`);
+  removeFiles(tree, `${domainName}-feature-${options.name}`);
 }

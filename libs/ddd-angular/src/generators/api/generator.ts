@@ -17,5 +17,5 @@ export default async function (tree: Tree, options: DddApiGeneratorSchema) {
     type: 'buildable',
     standalone: false,
   });
-  removeFiles(tree, `${options.domain}-api-${options.name}`);
+  removeFiles(tree, `${domainName}-api-${options.name}`);
 }
