@@ -1,7 +1,7 @@
 import { Tree } from '@nrwl/devkit';
 import { DddDomainGeneratorSchema } from './schema';
 import dddDomainGenerator from '@angular-architects/ddd/src/generators/domain';
-import { removeReadmes } from '../../helpers';
+import { removeFiles } from '../../helpers';
 
 export default async function (tree: Tree, options: DddDomainGeneratorSchema) {
   await dddDomainGenerator(tree, {
@@ -9,5 +9,5 @@ export default async function (tree: Tree, options: DddDomainGeneratorSchema) {
     standalone: false,
     type: 'buildable',
   });
-  removeReadmes(tree, `${options.name}-domain`);
+  removeFiles(tree, `${options.name}-domain`);
 }

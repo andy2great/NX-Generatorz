@@ -1,7 +1,7 @@
 import { Tree } from '@nrwl/devkit';
 import { DddShellGeneratorSchema } from './schema';
 import { libraryGenerator } from '@nrwl/angular/generators';
-import { guardValidDomain } from '../../helpers';
+import { guardValidDomain, removeFiles } from '../../helpers';
 
 export default async function (tree: Tree, options: DddShellGeneratorSchema) {
   guardValidDomain(tree, options.domain);
@@ -12,4 +12,5 @@ export default async function (tree: Tree, options: DddShellGeneratorSchema) {
     unitTestRunner: 'none' as any,
     tags: `domain:${options.domain},type:shell`,
   });
+  removeFiles(tree, `${options.domain}-shell-${options.name}`);
 }
