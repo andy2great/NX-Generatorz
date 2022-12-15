@@ -5,4 +5,4 @@
 Fixes # (issue)
 
 Thank you for contributing to our NX-Generatorz repo!
-(づ｡◕‿‿◕｡)づ
+:rocket:(づ｡◕‿‿◕｡)づ:rocket:
