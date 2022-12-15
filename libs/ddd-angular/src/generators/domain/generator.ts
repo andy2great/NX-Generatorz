@@ -9,5 +9,5 @@ export default async function (tree: Tree, options: DddDomainGeneratorSchema) {
     standalone: false,
     type: 'buildable',
   });
-  removeReadmes(tree, options.name);
+  removeReadmes(tree, `${options.name}-domain`);
 }
