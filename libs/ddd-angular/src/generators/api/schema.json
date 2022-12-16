@@ -23,8 +23,5 @@
       }
     }
   },
-  "required": [
-    "name",
-    "domain"
-  ]
+  "required": ["name", "domain"]
 }
