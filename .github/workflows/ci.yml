@@ -7,9 +7,6 @@ on:
 env:
   node_version: lts/*
 
-concurrency:
-  cancel-in-progress: true
-
 jobs:
   prettify:
     runs-on: ubuntu-latest
