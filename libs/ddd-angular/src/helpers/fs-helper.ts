@@ -2,6 +2,7 @@ import {
   Tree,
   readProjectConfiguration,
   visitNotIgnoredFiles,
+  names,
 } from '@nrwl/devkit';
 import { onlyReadmes } from '../constants';
 
@@ -22,7 +23,7 @@ export const findByFileNames = (
   const foundFiles: string[] = [];
   visitNotIgnoredFiles(tree, rootPath, (path: string) => {
     fileNames.forEach((fileName) => {
-      if (path.toLocaleLowerCase().includes(fileName.toLocaleLowerCase())) {
+      if (path.toLocaleLowerCase().endsWith(fileName.toLocaleLowerCase())) {
         foundFiles.push(path);
       }
     });
@@ -31,8 +32,8 @@ export const findByFileNames = (
 };
 
 /**
- * Removes files from the specified project where the path contains any of the
- * contained file names. *Careful* this verifies the path, and not only the file name.
+ * Remove the specified files from the specified project.
+ * The file name search is case insensitive, but must contain the extension.
  *
  * @param tree The virtual filesystem tree provided by NX
  * @param projectName The name of the project you wish to remove files from
@@ -48,3 +49,11 @@ export const removeFiles = (
   const files = findByFileNames(tree, projectRoot, fileNames);
   files.forEach((fileName) => tree.delete(fileName));
 };
+
+/**
+ * Converts the input into kebab-case, which is file name friendly
+ *
+ * @param input A string you'd like to convert
+ * @returns A kebab-case string
+ */
+export const sanitize = (input: string) => names(input).fileName;
