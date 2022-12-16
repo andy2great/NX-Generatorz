@@ -3,32 +3,32 @@
     "domain": {
       "factory": "./src/generators/domain/generator",
       "schema": "./src/generators/domain/schema.json",
-      "description": "Extends from angular ddd architects"
+      "description": "Simplification of the DDD domain generator from angular architects"
     },
     "feature": {
       "factory": "./src/generators/feature/generator",
       "schema": "./src/generators/feature/schema.json",
-      "description": "Extension of the feature from the angular architects repo"
+      "description": "Simplification of the DDD feature generator from angular architects"
     },
     "ui": {
       "factory": "./src/generators/ui/generator",
       "schema": "./src/generators/ui/schema.json",
-      "description": "Extension from the ui lib"
+      "description": "Simplification of the DDD UI generator from angular architects"
     },
     "util": {
       "factory": "./src/generators/util/generator",
       "schema": "./src/generators/util/schema.json",
-      "description": "Extension of the angular ddd lib from angular architects"
+      "description": "Simplification of the DDD util generator from angular architects"
     },
     "api": {
       "factory": "./src/generators/api/generator",
       "schema": "./src/generators/api/schema.json",
-      "description": "Extension of the ddd api from angular architects"
+      "description": "Simplification of the DDD api generator from angular architects"
     },
     "shell": {
       "factory": "./src/generators/shell/generator",
       "schema": "./src/generators/shell/schema.json",
-      "description": "shell inspired from beslogic"
+      "description": "Shell inspired from beslogic"
     }
   }
 }
