@@ -5,7 +5,6 @@ import {
   domainNameFromProject,
   guardValidDomain,
   removeFiles,
-  sanitize,
 } from '../../helpers';
 
 export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
@@ -20,5 +19,5 @@ export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
     entity: options.name,
     type: 'buildable',
   });
-  removeFiles(tree, `${domainName}-feature-${sanitize(options.name)}`);
+  removeFiles(tree, `${domainName}-feature-${options.name}`);
 }

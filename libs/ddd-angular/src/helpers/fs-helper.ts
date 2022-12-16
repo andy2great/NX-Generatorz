@@ -44,6 +44,7 @@ export const removeFiles = (
   projectName: string,
   fileNames: string[] = onlyReadmes
 ) => {
+  projectName = sanitize(projectName);
   const projectRoot = readProjectConfiguration(tree, projectName).root;
   if (!projectRoot) throw new Error("Project doesn't have a root");
   const files = findByFileNames(tree, projectRoot, fileNames);
