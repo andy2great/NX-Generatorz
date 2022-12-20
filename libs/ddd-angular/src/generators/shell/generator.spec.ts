@@ -1,9 +1,10 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration, getProjects } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DddShellGeneratorSchema } from './schema';
+import { changeIs } from '../../helpers/test-helper';
 
 describe('domain generator', () => {
   let appTree: Tree;
@@ -20,7 +21,6 @@ describe('domain generator', () => {
   });
 
   it('should generate a shell inside a domain', async () => {
-    console.log(getProjects(appTree));
     const config = readProjectConfiguration(appTree, 'testing-area-shell-test');
     expect(config).toBeDefined();
   });
@@ -28,7 +28,7 @@ describe('domain generator', () => {
   it("shouldn't contain any READMEs", () => {
     const readme = appTree
       .listChanges()
-      .find((change) => change.path.toLocaleLowerCase().endsWith('readme.md'));
+      .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
   });

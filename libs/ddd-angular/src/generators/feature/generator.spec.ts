@@ -4,6 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DddFeatureGeneratorSchema } from './schema';
+import { changeIs } from '../../helpers/test-helper';
 
 describe('feature generator', () => {
   let appTree: Tree;
@@ -30,7 +31,7 @@ describe('feature generator', () => {
   it("shouldn't contain any READMEs", () => {
     const readme = appTree
       .listChanges()
-      .find((change) => change.path.toLocaleLowerCase().endsWith('readme.md'));
+      .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
   });

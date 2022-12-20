@@ -3,6 +3,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
 import { DddUiGeneratorSchema } from './schema';
+import { changeIs } from '../../helpers/test-helper';
 
 describe('domain generator', () => {
   let appTree: Tree;
@@ -23,7 +24,7 @@ describe('domain generator', () => {
   it("shouldn't contain any READMEs", () => {
     const readme = appTree
       .listChanges()
-      .find((change) => change.path.toLocaleLowerCase().endsWith('readme.md'));
+      .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
   });
