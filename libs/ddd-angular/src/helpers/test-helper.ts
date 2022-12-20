@@ -1,29 +1,38 @@
 import { basename } from 'path';
 
-export const domainProjectFiles = (projectName: string) => [
+/**
+ * Returns a list of files that should be generated when running
+ * @param projectName
+ * @param projectPath
+ * @returns
+ */
+export const domainProjectFiles = (
+  projectName: string,
+  projectPath: string
+) => [
   '.prettierrc',
   'package.json',
   'tsconfig.base.json',
   '.eslintrc.json',
-  `libs/${projectName}/domain/ng-package.json`,
-  `libs/${projectName}/domain/package.json`,
-  `libs/${projectName}/domain/tsconfig.json`,
-  `libs/${projectName}/domain/tsconfig.lib.json`,
-  `libs/${projectName}/domain/tsconfig.lib.prod.json`,
-  `libs/${projectName}/domain/src/index.ts`,
-  `libs/${projectName}/domain/src/lib/${projectName}-domain.module.ts`,
-  `libs/${projectName}/domain/.eslintrc.json`,
-  `libs/${projectName}/domain/src/lib/application/.gitkeep`,
-  `libs/${projectName}/domain/src/lib/entities/.gitkeep`,
-  `libs/${projectName}/domain/src/lib/infrastructure/.gitkeep`,
+  `libs/${projectPath}/ng-package.json`,
+  `libs/${projectPath}/package.json`,
+  `libs/${projectPath}/tsconfig.json`,
+  `libs/${projectPath}/tsconfig.lib.json`,
+  `libs/${projectPath}/tsconfig.lib.prod.json`,
+  `libs/${projectPath}/src/index.ts`,
+  `libs/${projectPath}/src/lib/${projectName}.module.ts`,
+  `libs/${projectPath}/.eslintrc.json`,
+  `libs/${projectPath}/src/lib/application/.gitkeep`,
+  `libs/${projectPath}/src/lib/entities/.gitkeep`,
+  `libs/${projectPath}/src/lib/infrastructure/.gitkeep`,
 ];
 
-export const testFilesFor = (projectName: string) => [
+export const domainTestFiles = (projectPath: string) => [
   'jest.config.ts',
   'jest.preset.js',
-  `libs/${projectName}/domain/tsconfig.spec.json`,
-  `libs/${projectName}/domain/jest.config.ts`,
-  `libs/${projectName}/domain/src/test-setup.ts`,
+  `libs/${projectPath}/tsconfig.spec.json`,
+  `libs/${projectPath}/jest.config.ts`,
+  `libs/${projectPath}/src/test-setup.ts`,
 ];
 
 export const nxFiles = ['nx.json'];

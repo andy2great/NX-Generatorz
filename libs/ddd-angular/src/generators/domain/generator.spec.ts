@@ -4,7 +4,7 @@ import {
   changeIs,
   domainProjectFiles,
   nxFiles,
-  testFilesFor,
+  domainTestFiles,
 } from '../../helpers/test-helper';
 
 import generator from './generator';
@@ -45,7 +45,10 @@ describe('domain generator', () => {
   it('should contain domain project files', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
-    domainProjectFiles(options.name).forEach((expectedFile) => {
+    domainProjectFiles(
+      `${options.name}-domain`,
+      `${options.name}/domain`
+    ).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
   });
@@ -55,7 +58,7 @@ describe('domain generator', () => {
 
     console.log(changes);
 
-    testFilesFor(options.name).forEach((expectedFile) => {
+    domainTestFiles(`${options.name}/domain`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
   });
