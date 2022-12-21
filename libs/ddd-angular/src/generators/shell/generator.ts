@@ -5,7 +5,7 @@ import {
   domainNameFromProject,
   guardValidDomain,
   removeFiles,
-  domainTagFormat
+  domainTagFormat,
 } from '../../helpers';
 
 export default async function (tree: Tree, options: DddShellGeneratorSchema) {

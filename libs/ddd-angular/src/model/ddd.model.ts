@@ -1,12 +1,17 @@
-import { ProjectConfiguration, Tree, names, getWorkspaceLayout } from "@nrwl/devkit";
-import { readProjectConfiguration } from "@nrwl/devkit";
+import {
+  ProjectConfiguration,
+  Tree,
+  names,
+  getWorkspaceLayout,
+} from '@nrwl/devkit';
+import { readProjectConfiguration } from '@nrwl/devkit';
 import { moveGenerator } from '@nrwl/workspace/generators';
 
 export abstract class DDDObject {
   abstract readonly prefix: string;
-  
+
   readonly projectConfig: ProjectConfiguration;
-  
+
   constructor(public readonly tree: Tree, public readonly project: string) {
     this.projectConfig = readProjectConfiguration(this.tree, this.project);
   }
@@ -26,7 +31,7 @@ export abstract class DDDObject {
     await moveGenerator(this.tree, {
       projectName,
       updateImportPath: true,
-      destination:  `${adjustedPath}/${this.prefix}-${updatedName}`,
+      destination: `${adjustedPath}/${this.prefix}-${updatedName}`,
     });
-  };
+  }
 }

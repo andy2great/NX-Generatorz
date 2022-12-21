@@ -52,10 +52,12 @@ export const domainNameFromProject = (tree: Tree, projectName: string) =>
  * @returns the domain tag containing the domain name
  */
 export const domainTagFromProject = (tree: Tree, projectName: string) => {
-  const domainTag = readProjectConfiguration(tree, projectName).tags?.find((tag) => tag.startsWith('domain:'));
+  const domainTag = readProjectConfiguration(tree, projectName).tags?.find(
+    (tag) => tag.startsWith('domain:')
+  );
   if (!domainTag) throw new Error('Invalid domain');
   return domainTag;
-}
+};
 
 /**
  * It converts the domain name to a domain tag
@@ -76,7 +78,7 @@ export const domainTagFormat = (domain: string) => `domain:${domain}`;
  */
 export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
   const project = readProjectConfiguration(tree, projectName);
-  
+
   switch (project.tags?.find((tag) => tag.startsWith('type:'))) {
     case 'type:domain-logic':
       return new Domain(tree, projectName);
@@ -91,6 +93,6 @@ export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
     case 'type:util':
       return new Util(tree, projectName);
   }
-  
-    throw new Error('Invalid project type');
-}
+
+  throw new Error('Invalid project type');
+};

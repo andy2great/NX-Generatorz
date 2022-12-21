@@ -3,5 +3,5 @@ import { RenameGeneratorSchema } from './schema';
 import { MakeDDDObject } from '../../helpers';
 
 export default async function (tree: Tree, options: RenameGeneratorSchema) {
-  await MakeDDDObject(tree, options.project).rename(options.rename); 
+  await MakeDDDObject(tree, options.project).rename(options.rename);
 }
