@@ -69,4 +69,13 @@ describe('domain generator', () => {
       expect(changes).toContain(expectedFile);
     });
   });
+
+  it("should generate the correct tags in the domain's project.json", () => {
+    const project = readProjectConfiguration(appTree, `${options.name}-domain`);
+    const expectedTags = [`domain:${options.name}`, 'type:domain-logic'];
+
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
+    });
+  });
 });

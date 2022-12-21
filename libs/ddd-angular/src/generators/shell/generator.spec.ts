@@ -60,14 +60,14 @@ describe('domain generator', () => {
   });
 
   it("should generate the correct tags in the shell's project.json", () => {
-    const projectJson = readProjectConfiguration(
+    const project = readProjectConfiguration(
       appTree,
       `${options.domain}-shell-${options.name}`
     );
+    const expectedTags = [`domain:${options.domain}-domain`, 'type:shell'];
 
-    expect(projectJson.tags).toStrictEqual([
-      `domain:${options.domain}-domain`,
-      'type:shell',
-    ]);
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
+    });
   });
 });

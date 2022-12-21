@@ -74,15 +74,14 @@ describe('api generator', () => {
   });
 
   it("should generate the correct tags in the api's project.json", () => {
-    const projectJson = readProjectConfiguration(
+    const project = readProjectConfiguration(
       appTree,
       `${options.domain}-api-${options.name}`
     );
+    const expectedTags = [`domain:${options.domain}`, 'type:api'];
 
-    expect(projectJson.tags).toStrictEqual([
-      `domain:${options.domain}`,
-      `domain:${options.domain}/api-${options.name}`,
-      'type:api',
-    ]);
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
+    });
   });
 });

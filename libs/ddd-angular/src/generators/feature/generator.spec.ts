@@ -72,18 +72,6 @@ describe('feature generator', () => {
     );
   });
 
-  it("should generate the correct tags in the feature's project.json", () => {
-    const projectJson = readProjectConfiguration(
-      appTree,
-      `${options.domain}-feature-${options.name}`
-    );
-
-    expect(projectJson.tags).toStrictEqual([
-      `domain:${options.domain}`,
-      'type:feature',
-    ]);
-  });
-
   it('should generate a default facade, model, data-service, and component in the domain', () => {
     const changes = appTree.listChanges().map((change) => change.path);
     const expectedChanges = [
@@ -97,6 +85,18 @@ describe('feature generator', () => {
 
     expectedChanges.forEach((expectedChange) => {
       expect(changes).toContain(expectedChange);
+    });
+  });
+
+  it("should generate the correct tags in the feature's project.json", () => {
+    const project = readProjectConfiguration(
+      appTree,
+      `${options.domain}-feature-${options.name}`
+    );
+    const expectedTags = [`domain:${options.domain}`, 'type:feature'];
+
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
     });
   });
 });

@@ -22,7 +22,10 @@ describe('domain generator', () => {
   });
 
   it('should generate a shared UI', async () => {
-    const config = readProjectConfiguration(appTree, 'shared-ui-test');
+    const config = readProjectConfiguration(
+      appTree,
+      `shared-ui-${options.name}`
+    );
     expect(config).toBeDefined();
   });
 
@@ -58,6 +61,18 @@ describe('domain generator', () => {
 
     generalTestingFiles(`shared/ui-${options.name}`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it("should generate the correct tags in the UI's project.json", () => {
+    const project = readProjectConfiguration(
+      appTree,
+      `shared-ui-${options.name}`
+    );
+    const expectedTags = ['domain:shared', 'type:ui'];
+
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
     });
   });
 });

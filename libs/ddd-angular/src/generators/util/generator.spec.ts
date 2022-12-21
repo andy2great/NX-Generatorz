@@ -65,4 +65,16 @@ describe('util generator', () => {
       }
     );
   });
+
+  it("should generate the correct tags in the util's project.json", () => {
+    const project = readProjectConfiguration(
+      appTree,
+      `shared-util-${options.name}`
+    );
+    const expectedTags = ['domain:shared', 'type:util'];
+
+    expectedTags.forEach((tag) => {
+      expect(project.tags).toContain(tag);
+    });
+  });
 });
