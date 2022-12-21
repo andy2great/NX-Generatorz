@@ -29,6 +29,11 @@
       "factory": "./src/generators/shell/generator",
       "schema": "./src/generators/shell/schema.json",
       "description": "shell inspired from beslogic"
+    },
+    "rename": {
+      "factory": "./src/generators/rename/generator",
+      "schema": "./src/generators/rename/schema.json",
+      "description": "Rename a file or folder"
     }
   }
 }

@@ -12,6 +12,6 @@ export default async function (tree: Tree, options: DddShellGeneratorSchema) {
     name: `shell-${options.name}`,
     directory: domainName,
     unitTestRunner: 'none' as any,
-    tags: `domain:${options.domain},type:shell`,
+    tags: `domain:${domainName},type:shell`,
   });
 }

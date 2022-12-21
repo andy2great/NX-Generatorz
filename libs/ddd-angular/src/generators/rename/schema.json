@@ -18,19 +18,10 @@
       "type": "string",
       "description": "The new name of the targeted folder",
       "x-prompt": "What name would you like to rename the project to?"
-    },
-    "target": {
-      "type": "string",
-      "description": "The type of folder that needs to be renamed. \"project\" will rename the targeted project.",
-      "enum": [
-        "project"
-      ],
-      "default": "project"
     }
   },
   "required": [
     "project",
-    "rename",
-    "target"
+    "rename"
   ]
 }

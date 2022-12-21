@@ -1,4 +1,11 @@
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { DDDObject } from '../model/ddd.model';
+import { Domain } from '../model/domain.model';
+import { API } from '../model/api.model';
+import { Shell } from '../model/shell.model';
+import { Feature } from '../model/feature.model';
+import { UI } from '../model/ui.model';
+import { Util } from '../model/util.model';
 
 export const guardValidDomain = (tree: Tree, domain: string) => {
   if (!domainExist(tree, domain)) throw new Error('Invalid domain');
@@ -14,4 +21,25 @@ export const domainNameFromProject = (tree: Tree, projectName: string) => {
   const domainName = readProjectConfiguration(tree, projectName).tags?.find((tag) => tag.startsWith('domain:'))?.split(':')[1];
   if (!domainName) throw new Error('Invalid domain');
   return domainName;
+}
+
+export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
+  const project = readProjectConfiguration(tree, projectName);
+  
+  switch (project.tags?.find((tag) => tag.startsWith('type:'))) {
+    case 'type:domain-logic':
+      return new Domain(tree, projectName);
+    case 'type:api':
+      return new API(tree, projectName);
+    case 'type:shell':
+      return new Shell(tree, projectName);
+    case 'type:feature':
+      return new Feature(tree, projectName);
+    case 'type:ui':
+      return new UI(tree, projectName);
+    case 'type:util':
+      return new Util(tree, projectName);
+  }
+  
+    throw new Error('Invalid project type');
 }
