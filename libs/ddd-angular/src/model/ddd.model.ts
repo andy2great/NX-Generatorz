@@ -27,11 +27,11 @@ export abstract class DDDObject {
     const adjustedPath = root
       .substring(0, root.lastIndexOf('/') + 1)
       .substring(libsDir.length + 1);
-
+      
     await moveGenerator(this.tree, {
       projectName,
       updateImportPath: true,
-      destination: `${adjustedPath}/${this.prefix}-${updatedName}`,
+      destination: `${adjustedPath}${this.prefix}-${updatedName}`,
     });
   }
 }

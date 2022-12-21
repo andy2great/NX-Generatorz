@@ -27,13 +27,19 @@ export class Domain extends DDDObject {
     const domainTag = domainTagFormat(previousDomainName);
 
     const projects = getProjects(this.tree);
+    
 
     [...projects.keys()]
       .map((key) => readProjectConfiguration(this.tree, key))
       .filter(
-        (project) =>
-          project.name &&
-          domainTagFromProject(this.tree, project.name) === domainTag
+        (project) => {
+          if (!project.name) return false;
+          try {
+            return domainTagFromProject(this.tree, project.name) === domainTag;
+          } catch {
+            return false;
+          }
+        }
       )
       .forEach(async (project) => {
         if (!project.name) throw new Error('Invalid project name');
@@ -41,7 +47,7 @@ export class Domain extends DDDObject {
         const adjustedPath = project.root
           .replace(`/${previousDomainName}/`, `/${updatedName}/`)
           .substring(libsDir.length + 1);
-
+          
         updateProjectConfiguration(this.tree, project.name, {
           ...project,
           tags: [
