@@ -18,10 +18,18 @@ export const domainExist = (tree: Tree, domain: string) => {
 }
 
 export const domainNameFromProject = (tree: Tree, projectName: string) => {
-  const domainName = readProjectConfiguration(tree, projectName).tags?.find((tag) => tag.startsWith('domain:'))?.split(':')[1];
+  const domainName = domainTagFromProject(tree, projectName).split(':')[1];
   if (!domainName) throw new Error('Invalid domain');
   return domainName;
 }
+
+export const domainTagFromProject = (tree: Tree, projectName: string) => {
+  const domainTag = readProjectConfiguration(tree, projectName).tags?.find((tag) => tag.startsWith('domain:'));
+  if (!domainTag) throw new Error('Invalid domain');
+  return domainTag;
+}
+
+export const domainTagFormat = (domain: string) => `domain:${domain}`;
 
 export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
   const project = readProjectConfiguration(tree, projectName);

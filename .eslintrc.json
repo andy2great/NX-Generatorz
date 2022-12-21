@@ -15,17 +15,6 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
-              },
-              {
-                "sourceTag": "domain:bruh-yolo",
-                "onlyDependOnLibsWithTags": [
-                  "domain:bruh-yolo",
-                  "domain:shared"
-                ]
-              },
-              {
-                "sourceTag": "domain:bruh",
-                "onlyDependOnLibsWithTags": ["domain:bruh", "domain:shared"]
               }
             ]
           }

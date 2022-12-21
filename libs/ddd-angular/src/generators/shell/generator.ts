@@ -1,7 +1,7 @@
 import { Tree } from '@nrwl/devkit';
 import { DddShellGeneratorSchema } from './schema';
 import { libraryGenerator } from '@nrwl/angular/generators';
-import { domainNameFromProject, guardValidDomain } from '../../helpers';
+import { domainNameFromProject, guardValidDomain, domainTagFormat } from '../../helpers';
 
 export default async function (tree: Tree, options: DddShellGeneratorSchema) {
   guardValidDomain(tree, options.domain);
@@ -12,6 +12,6 @@ export default async function (tree: Tree, options: DddShellGeneratorSchema) {
     name: `shell-${options.name}`,
     directory: domainName,
     unitTestRunner: 'none' as any,
-    tags: `domain:${domainName},type:shell`,
+    tags: `${domainTagFormat(domainName)},type:shell`,
   });
 }
