@@ -3,7 +3,12 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
 import { DddUiGeneratorSchema } from './schema';
-import { changeIs } from '../../helpers/test-helper';
+import {
+  changeIs,
+  domainProjectFiles,
+  domainTestFiles,
+  nxFiles,
+} from '../../helpers/test-helper';
 
 describe('domain generator', () => {
   let appTree: Tree;
@@ -27,5 +32,24 @@ describe('domain generator', () => {
       .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
+  });
+
+  it('should contain base NX files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    nxFiles.forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should contain base NX files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    domainProjectFiles(
+      `shared-ui-${options.name}`,
+      `shared/ui-${options.name}`
+    ).forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
   });
 });

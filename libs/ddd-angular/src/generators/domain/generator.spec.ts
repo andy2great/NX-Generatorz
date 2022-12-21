@@ -56,8 +56,6 @@ describe('domain generator', () => {
   it('should contain files related to testing', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
-    console.log(changes);
-
     domainTestFiles(`${options.name}/domain`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
