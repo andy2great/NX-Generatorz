@@ -2,9 +2,10 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import {
   changeIs,
-  domainProjectFiles,
+  generalProjectFiles,
   nxFiles,
   domainTestFiles,
+  domainProjectFiles,
 } from '../../helpers/test-helper';
 
 import generator from './generator';
@@ -42,13 +43,21 @@ describe('domain generator', () => {
     });
   });
 
-  it('should contain domain project files', () => {
+  it('should contain general project files', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
-    domainProjectFiles(
+    generalProjectFiles(
       `${options.name}-domain`,
       `${options.name}/domain`
     ).forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should contain domain specific project files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    domainProjectFiles(`${options.name}/domain`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
   });

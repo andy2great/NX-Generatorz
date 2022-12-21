@@ -5,8 +5,7 @@ import generator from './generator';
 import { DddUiGeneratorSchema } from './schema';
 import {
   changeIs,
-  domainProjectFiles,
-  domainTestFiles,
+  generalProjectFiles,
   nxFiles,
 } from '../../helpers/test-helper';
 
@@ -45,7 +44,7 @@ describe('domain generator', () => {
   it('should contain base NX files', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
-    domainProjectFiles(
+    generalProjectFiles(
       `shared-ui-${options.name}`,
       `shared/ui-${options.name}`
     ).forEach((expectedFile) => {

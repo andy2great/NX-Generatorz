@@ -6,7 +6,7 @@ import { basename } from 'path';
  * @param projectPath
  * @returns
  */
-export const domainProjectFiles = (
+export const generalProjectFiles = (
   projectName: string,
   projectPath: string
 ) => [
@@ -22,6 +22,9 @@ export const domainProjectFiles = (
   `libs/${projectPath}/src/index.ts`,
   `libs/${projectPath}/src/lib/${projectName}.module.ts`,
   `libs/${projectPath}/.eslintrc.json`,
+];
+
+export const domainProjectFiles = (projectPath: string) => [
   `libs/${projectPath}/src/lib/application/.gitkeep`,
   `libs/${projectPath}/src/lib/entities/.gitkeep`,
   `libs/${projectPath}/src/lib/infrastructure/.gitkeep`,
