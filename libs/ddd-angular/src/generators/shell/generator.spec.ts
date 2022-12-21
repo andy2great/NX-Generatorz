@@ -4,20 +4,22 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DddShellGeneratorSchema } from './schema';
-import { changeIs } from '../../helpers/test-helper';
+import { changeIs, nxFiles } from '../../helpers/test-helper';
 
 describe('domain generator', () => {
   let appTree: Tree;
-  const domainName = 'testing-area';
   const options: DddShellGeneratorSchema = {
     name: 'test',
-    domain: `${domainName}-domain`,
+    domain: `testing-area`,
   };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await domainGenerator(appTree, { name: domainName });
-    await generator(appTree, options);
+    await domainGenerator(appTree, { name: options.domain });
+    await generator(appTree, {
+      domain: `${options.domain}-domain`,
+      name: options.name,
+    });
   });
 
   it('should generate a shell inside a domain', async () => {
@@ -31,5 +33,41 @@ describe('domain generator', () => {
       .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
+  });
+
+  it('should contain base NX files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    nxFiles.forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should generate shell specific files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+    const expectedChanges = [
+      `libs/${options.domain}/shell-${options.name}/tsconfig.lib.json`,
+      `libs/${options.domain}/shell-${options.name}/src/index.ts`,
+      `libs/${options.domain}/shell-${options.name}/src/lib/${options.domain}-shell-${options.name}.module.ts`,
+      `libs/${options.domain}/shell-${options.name}/project.json`,
+      `libs/${options.domain}/shell-${options.name}/tsconfig.json`,
+      `libs/${options.domain}/shell-${options.name}/.eslintrc.json`,
+    ];
+
+    expectedChanges.forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it("should generate the correct tags in the shell's project.json", () => {
+    const projectJson = readProjectConfiguration(
+      appTree,
+      `${options.domain}-shell-${options.name}`
+    );
+
+    expect(projectJson.tags).toStrictEqual([
+      `domain:${options.domain}-domain`,
+      'type:shell',
+    ]);
   });
 });

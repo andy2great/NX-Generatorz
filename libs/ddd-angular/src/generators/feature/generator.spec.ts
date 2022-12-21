@@ -4,20 +4,27 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DddFeatureGeneratorSchema } from './schema';
-import { changeIs } from '../../helpers/test-helper';
+import {
+  changeIs,
+  generalProjectFiles,
+  generalTestingFiles,
+  nxFiles,
+} from '../../helpers/test-helper';
 
 describe('feature generator', () => {
   let appTree: Tree;
-  const domainName = 'testing-area';
   const options: DddFeatureGeneratorSchema = {
     name: 'test',
-    domain: `${domainName}-domain`,
+    domain: 'testing-area',
   };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await domainGenerator(appTree, { name: domainName });
-    await generator(appTree, options);
+    await domainGenerator(appTree, { name: options.domain });
+    await generator(appTree, {
+      domain: `${options.domain}-domain`,
+      name: options.name,
+    });
   });
 
   it('should generate a feature', async () => {
@@ -34,5 +41,62 @@ describe('feature generator', () => {
       .find((change) => changeIs(change, 'readme.md'));
 
     expect(readme).toBeUndefined();
+  });
+
+  it('should contain base NX files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    nxFiles.forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should contain general project files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    generalProjectFiles(
+      `${options.domain}-feature-${options.name}`,
+      `${options.domain}/feature-${options.name}`
+    ).forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should contain files related to testing', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    generalTestingFiles(`${options.domain}/feature-${options.name}`).forEach(
+      (expectedFile) => {
+        expect(changes).toContain(expectedFile);
+      }
+    );
+  });
+
+  it("should generate the correct tags in the feature's project.json", () => {
+    const projectJson = readProjectConfiguration(
+      appTree,
+      `${options.domain}-feature-${options.name}`
+    );
+
+    expect(projectJson.tags).toStrictEqual([
+      `domain:${options.domain}`,
+      'type:feature',
+    ]);
+  });
+
+  it('should generate a default facade, model, data-service, and component in the domain', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+    const expectedChanges = [
+      `libs/${options.domain}/domain/src/lib/application/feature-${options.name}.facade.ts`,
+      `libs/${options.domain}/domain/src/lib/entities/${options.name}.ts`,
+      `libs/${options.domain}/domain/src/lib/infrastructure/${options.name}.data.service.ts`,
+      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.html`,
+      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.scss`,
+      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.ts`,
+    ];
+
+    expectedChanges.forEach((expectedChange) => {
+      expect(changes).toContain(expectedChange);
+    });
   });
 });
