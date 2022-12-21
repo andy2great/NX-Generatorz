@@ -4,7 +4,7 @@ import {
   changeIs,
   generalProjectFiles,
   nxFiles,
-  domainTestFiles,
+  generalTestingFiles,
   domainProjectFiles,
 } from '../../helpers/test-helper';
 
@@ -65,7 +65,7 @@ describe('domain generator', () => {
   it('should contain files related to testing', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
-    domainTestFiles(`${options.name}/domain`).forEach((expectedFile) => {
+    generalTestingFiles(`${options.name}/domain`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
   });

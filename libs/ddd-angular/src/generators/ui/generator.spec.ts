@@ -6,6 +6,7 @@ import { DddUiGeneratorSchema } from './schema';
 import {
   changeIs,
   generalProjectFiles,
+  generalTestingFiles,
   nxFiles,
 } from '../../helpers/test-helper';
 
@@ -41,13 +42,21 @@ describe('domain generator', () => {
     });
   });
 
-  it('should contain base NX files', () => {
+  it('should contain general project files', () => {
     const changes = appTree.listChanges().map((change) => change.path);
 
     generalProjectFiles(
       `shared-ui-${options.name}`,
       `shared/ui-${options.name}`
     ).forEach((expectedFile) => {
+      expect(changes).toContain(expectedFile);
+    });
+  });
+
+  it('should contain testing files', () => {
+    const changes = appTree.listChanges().map((change) => change.path);
+
+    generalTestingFiles(`shared/ui-${options.name}`).forEach((expectedFile) => {
       expect(changes).toContain(expectedFile);
     });
   });

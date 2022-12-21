@@ -21,6 +21,7 @@ export const generalProjectFiles = (
   `libs/${projectPath}/tsconfig.lib.prod.json`,
   `libs/${projectPath}/src/index.ts`,
   `libs/${projectPath}/src/lib/${projectName}.module.ts`,
+  `libs/${projectPath}/project.json`,
   `libs/${projectPath}/.eslintrc.json`,
 ];
 
@@ -30,7 +31,7 @@ export const domainProjectFiles = (projectPath: string) => [
   `libs/${projectPath}/src/lib/infrastructure/.gitkeep`,
 ];
 
-export const domainTestFiles = (projectPath: string) => [
+export const generalTestingFiles = (projectPath: string) => [
   'jest.config.ts',
   'jest.preset.js',
   `libs/${projectPath}/tsconfig.spec.json`,
