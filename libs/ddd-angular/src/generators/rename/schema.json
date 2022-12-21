@@ -20,8 +20,5 @@
       "x-prompt": "What name would you like to rename the project to?"
     }
   },
-  "required": [
-    "project",
-    "rename"
-  ]
+  "required": ["project", "rename"]
 }

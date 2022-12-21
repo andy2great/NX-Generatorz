@@ -1,4 +1,4 @@
 export interface RenameGeneratorSchema {
-    project: string;
-    rename: string;
+  project: string;
+  rename: string;
 }

@@ -1,7 +1,17 @@
-import { getWorkspaceLayout, names, getProjects, readProjectConfiguration, updateProjectConfiguration } from "@nrwl/devkit";
-import { DDDObject } from "./ddd.model";
+import {
+  getWorkspaceLayout,
+  names,
+  getProjects,
+  readProjectConfiguration,
+  updateProjectConfiguration,
+} from '@nrwl/devkit';
+import { DDDObject } from './ddd.model';
 import { moveGenerator } from '@nrwl/workspace/generators';
-import { domainNameFromProject, domainTagFormat, domainTagFromProject } from "../helpers";
+import {
+  domainNameFromProject,
+  domainTagFormat,
+  domainTagFromProject,
+} from '../helpers';
 
 export class Domain extends DDDObject {
   prefix = 'domain';
@@ -15,12 +25,16 @@ export class Domain extends DDDObject {
 
     if (!projectName) throw new Error('Invalid project name');
     const domainTag = domainTagFormat(previousDomainName);
-    
+
     const projects = getProjects(this.tree);
 
     [...projects.keys()]
       .map((key) => readProjectConfiguration(this.tree, key))
-      .filter((project) => project.name && domainTagFromProject(this.tree, project.name) === domainTag)
+      .filter(
+        (project) =>
+          project.name &&
+          domainTagFromProject(this.tree, project.name) === domainTag
+      )
       .forEach(async (project) => {
         if (!project.name) throw new Error('Invalid project name');
 
@@ -30,7 +44,10 @@ export class Domain extends DDDObject {
 
         updateProjectConfiguration(this.tree, project.name, {
           ...project,
-          tags: [...(project.tags?.filter((tag) => tag !== domainTag) ?? []), domainTagFormat(updatedName)]
+          tags: [
+            ...(project.tags?.filter((tag) => tag !== domainTag) ?? []),
+            domainTagFormat(updatedName),
+          ],
         });
 
         await moveGenerator(this.tree, {
@@ -39,5 +56,5 @@ export class Domain extends DDDObject {
           destination: adjustedPath,
         });
       });
-  };
+  }
 }

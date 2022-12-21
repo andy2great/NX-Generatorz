@@ -1,4 +1,4 @@
-import { DDDObject } from "./ddd.model";
+import { DDDObject } from './ddd.model';
 
 export class API extends DDDObject {
   prefix = 'api';
