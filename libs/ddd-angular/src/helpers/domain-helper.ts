@@ -9,7 +9,7 @@ import { Util } from '../model/util.model';
 
 /**
  * It throws an error if the domain is invalid or shared
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param domain The domain name
  */
@@ -21,7 +21,7 @@ export const guardValidDomain = (tree: Tree, domain: string) => {
 /**
  * It checks if the project is a domain by checking if it has the tag 'type:domain-logic'
  * It throws an error if the domain is invalid
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param domain The domain name
  * @returns if the project is a domain
@@ -34,19 +34,18 @@ export const domainExist = (tree: Tree, domain: string) => {
 /**
  * It finds the domain name from the tag 'domain:{domain-name}'
  * It throws an error if the domain is invalid
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param projectName The project name
  * @returns The domain name
  */
-export const domainNameFromProject = (tree: Tree, projectName: string) => 
+export const domainNameFromProject = (tree: Tree, projectName: string) =>
   domainTagFromProject(tree, projectName).split(':')[1];
-
 
 /**
  * It finds the domain tag from the tag starting with 'domain:'
  * It throws an error if the domain is invalid
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param projectName The project name
  * @returns the domain tag containing the domain name
@@ -61,7 +60,7 @@ export const domainTagFromProject = (tree: Tree, projectName: string) => {
 
 /**
  * It converts the domain name to a domain tag
- * 
+ *
  * @param domain The domain name
  * @returns the formatted domain tag like 'domain:{domain-name}'
  */
@@ -71,7 +70,7 @@ export const domainTagFormat = (domain: string) => `domain:${domain}`;
  * It makes a DDDObject from a project name based on the project type found in the tags with the prefix 'type:'
  * The types can be of the following: 'type:domain-logic', 'type:api', 'type:shell', 'type:feature', 'type:ui', 'type:util'
  * It throws an error if the project type is invalid
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param projectName the project name
  * @returns the DDDObject
