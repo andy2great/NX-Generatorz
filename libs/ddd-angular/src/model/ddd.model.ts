@@ -19,19 +19,20 @@ export abstract class DDDObject {
   async rename(name: string) {
     const { fileName: updatedName } = names(name);
     const { libsDir } = getWorkspaceLayout(this.tree);
-    const { root } = this.projectConfig;
-
-    const projectName = this.projectConfig.name;
-    if (!projectName) throw new Error('Invalid project name');
-
-    const adjustedPath = root
-      .substring(0, root.lastIndexOf('/') + 1)
-      .substring(libsDir.length + 1);
-      
+    const { root, name: projectName } = this.projectConfig;
+  
+    if (!projectName) {
+      throw new Error('Invalid project name');
+    }
+  
+    const pathWithoutRoot = root.substring(0, root.lastIndexOf('/') + 1);
+    const pathWithoutLibsDir = pathWithoutRoot.substring(libsDir.length + 1);
+    const adjustedPath = `${pathWithoutLibsDir}${this.prefix}-${updatedName}`;
+  
     await moveGenerator(this.tree, {
       projectName,
       updateImportPath: true,
-      destination: `${adjustedPath}${this.prefix}-${updatedName}`,
+      destination: adjustedPath,
     });
   }
 }

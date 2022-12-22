@@ -1,11 +1,5 @@
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
-import { DDDObject } from '../model/ddd.model';
-import { Domain } from '../model/domain.model';
-import { API } from '../model/api.model';
-import { Shell } from '../model/shell.model';
-import { Feature } from '../model/feature.model';
-import { UI } from '../model/ui.model';
-import { Util } from '../model/util.model';
+import { DDDObject, Domain, API, Shell, Feature, UI, Util } from '../model';
 
 /**
  * It throws an error if the domain is invalid or shared
@@ -14,7 +8,7 @@ import { Util } from '../model/util.model';
  * @param domain The domain name
  */
 export const guardValidDomain = (tree: Tree, domain: string) => {
-  if (!domainExist(tree, domain)) throw new Error('Invalid domain');
+  if (!domainExist(tree, domain)) throw new Error('Invalid domain. It does not have the "type:domain-logic" tag');
   if (domain === 'shared') throw new Error('Shared cannot be a domain');
 };
 
@@ -54,8 +48,24 @@ export const domainTagFromProject = (tree: Tree, projectName: string) => {
   const domainTag = readProjectConfiguration(tree, projectName).tags?.find(
     (tag) => tag.startsWith('domain:')
   );
-  if (!domainTag) throw new Error('Invalid domain');
+  if (!domainTag) throw new Error('Invalid domain. Found tags "domain:{domain-name}"}');
   return domainTag;
+};
+
+/**
+ * It finds the type tag from the tag starting with 'type:' 
+ * It throws an error if the type is invalid
+ * 
+ * @param tree The virtual filesystem tree provided by NX
+ * @param projectName The project name
+ * @returns the type tag containing the type name
+ */
+export const typeFromProject = (tree: Tree, projectName: string) => {
+  const typeTag = readProjectConfiguration(tree, projectName).tags?.find(
+    (tag) => tag.startsWith('type:')
+  );
+  if (!typeTag) throw new Error('Invalid type. Found tags "type:{type-name}"}');
+  return typeTag;
 };
 
 /**
@@ -76,9 +86,7 @@ export const domainTagFormat = (domain: string) => `domain:${domain}`;
  * @returns the DDDObject
  */
 export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
-  const project = readProjectConfiguration(tree, projectName);
-
-  switch (project.tags?.find((tag) => tag.startsWith('type:'))) {
+  switch (typeFromProject(tree, projectName)) {
     case 'type:domain-logic':
       return new Domain(tree, projectName);
     case 'type:api':
@@ -93,5 +101,5 @@ export const MakeDDDObject = (tree: Tree, projectName: string): DDDObject => {
       return new Util(tree, projectName);
   }
 
-  throw new Error('Invalid project type');
+  throw new Error('Unsupported project type: "type:{project-type}');
 };
