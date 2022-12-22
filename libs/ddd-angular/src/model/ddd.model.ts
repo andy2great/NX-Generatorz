@@ -20,15 +20,15 @@ export abstract class DDDObject {
     const { fileName: updatedName } = names(name);
     const { libsDir } = getWorkspaceLayout(this.tree);
     const { root, name: projectName } = this.projectConfig;
-  
+
     if (!projectName) {
       throw new Error('Invalid project name');
     }
-  
+
     const pathWithoutRoot = root.substring(0, root.lastIndexOf('/') + 1);
     const pathWithoutLibsDir = pathWithoutRoot.substring(libsDir.length + 1);
     const adjustedPath = `${pathWithoutLibsDir}${this.prefix}-${updatedName}`;
-  
+
     await moveGenerator(this.tree, {
       projectName,
       updateImportPath: true,

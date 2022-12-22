@@ -8,7 +8,10 @@ import { DDDObject, Domain, API, Shell, Feature, UI, Util } from '../model';
  * @param domain The domain name
  */
 export const guardValidDomain = (tree: Tree, domain: string) => {
-  if (!domainExist(tree, domain)) throw new Error('Invalid domain. It does not have the "type:domain-logic" tag');
+  if (!domainExist(tree, domain))
+    throw new Error(
+      'Invalid domain. It does not have the "type:domain-logic" tag'
+    );
   if (domain === 'shared') throw new Error('Shared cannot be a domain');
 };
 
@@ -48,14 +51,15 @@ export const domainTagFromProject = (tree: Tree, projectName: string) => {
   const domainTag = readProjectConfiguration(tree, projectName).tags?.find(
     (tag) => tag.startsWith('domain:')
   );
-  if (!domainTag) throw new Error('Invalid domain. Found tags "domain:{domain-name}"}');
+  if (!domainTag)
+    throw new Error('Invalid domain. Found tags "domain:{domain-name}"}');
   return domainTag;
 };
 
 /**
- * It finds the type tag from the tag starting with 'type:' 
+ * It finds the type tag from the tag starting with 'type:'
  * It throws an error if the type is invalid
- * 
+ *
  * @param tree The virtual filesystem tree provided by NX
  * @param projectName The project name
  * @returns the type tag containing the type name
