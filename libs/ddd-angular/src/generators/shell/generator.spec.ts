@@ -95,4 +95,6 @@ describe('domain generator', () => {
       expect(project.tags).toContain(tag);
     });
   });
+
+  it('should throw an error if the project is not a domain');
 });
