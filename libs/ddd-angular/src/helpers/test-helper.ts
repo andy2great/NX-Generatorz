@@ -6,40 +6,46 @@ import { basename } from 'path';
  * @param projectPath
  * @returns
  */
-export const generalProjectFiles = (
+export const generalProjectChanges = (
   projectName: string,
   projectPath: string
 ) => [
-  '.prettierrc',
-  'package.json',
-  'tsconfig.base.json',
-  '.eslintrc.json',
-  `libs/${projectPath}/ng-package.json`,
-  `libs/${projectPath}/package.json`,
-  `libs/${projectPath}/tsconfig.json`,
-  `libs/${projectPath}/tsconfig.lib.json`,
-  `libs/${projectPath}/tsconfig.lib.prod.json`,
-  `libs/${projectPath}/src/index.ts`,
-  `libs/${projectPath}/src/lib/${projectName}.module.ts`,
-  `libs/${projectPath}/project.json`,
-  `libs/${projectPath}/.eslintrc.json`,
+  { path: '.prettierrc', type: 'CREATE' },
+  { path: 'package.json', type: 'CREATE' },
+  { path: 'tsconfig.base.json', type: 'CREATE' },
+  { path: '.eslintrc.json', type: 'CREATE' },
+  { path: `libs/${projectPath}/ng-package.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/package.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/tsconfig.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/tsconfig.lib.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/tsconfig.lib.prod.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/src/index.ts`, type: 'CREATE' },
+  {
+    path: `libs/${projectPath}/src/lib/${projectName}.module.ts`,
+    type: 'CREATE',
+  },
+  { path: `libs/${projectPath}/project.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/.eslintrc.json`, type: 'CREATE' },
 ];
 
-export const domainProjectFiles = (projectPath: string) => [
-  `libs/${projectPath}/src/lib/application/.gitkeep`,
-  `libs/${projectPath}/src/lib/entities/.gitkeep`,
-  `libs/${projectPath}/src/lib/infrastructure/.gitkeep`,
+export const domainProjectChanges = (projectPath: string) => [
+  { path: `libs/${projectPath}/src/lib/application/.gitkeep`, type: 'CREATE' },
+  { path: `libs/${projectPath}/src/lib/entities/.gitkeep`, type: 'CREATE' },
+  {
+    path: `libs/${projectPath}/src/lib/infrastructure/.gitkeep`,
+    type: 'CREATE',
+  },
 ];
 
-export const generalTestingFiles = (projectPath: string) => [
-  'jest.config.ts',
-  'jest.preset.js',
-  `libs/${projectPath}/tsconfig.spec.json`,
-  `libs/${projectPath}/jest.config.ts`,
-  `libs/${projectPath}/src/test-setup.ts`,
+export const generalTestingChanges = (projectPath: string) => [
+  { path: 'jest.config.ts', type: 'CREATE' },
+  { path: 'jest.preset.js', type: 'CREATE' },
+  { path: `libs/${projectPath}/tsconfig.spec.json`, type: 'CREATE' },
+  { path: `libs/${projectPath}/jest.config.ts`, type: 'CREATE' },
+  { path: `libs/${projectPath}/src/test-setup.ts`, type: 'CREATE' },
 ];
 
-export const nxFiles = ['nx.json'];
+export const nxFiles = [{ path: 'nx.json', type: 'CREATE' }];
 
 export const changeIs = (changes: { path: string }, fileName: string) =>
   basename(changes.path.toLocaleLowerCase()) === fileName;

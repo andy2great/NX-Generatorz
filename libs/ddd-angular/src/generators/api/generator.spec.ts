@@ -1,16 +1,15 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration, getProjects } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DddApiGeneratorSchema } from './schema';
 import {
   changeIs,
-  generalProjectFiles,
-  generalTestingFiles,
+  generalProjectChanges,
+  generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
-import { projectGraphAdapter } from 'nx/src/project-graph/project-graph';
 
 describe('api generator', () => {
   let appTree: Tree;
@@ -33,6 +32,7 @@ describe('api generator', () => {
       appTree,
       `${options.domain}-api-${options.name}`
     );
+
     expect(config).toBeDefined();
   });
 
@@ -45,30 +45,39 @@ describe('api generator', () => {
   });
 
   it('should contain base NX files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
     nxFiles.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should contain general project files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalProjectFiles(
+    generalProjectChanges(
       `${options.domain}-api-${options.name}`,
       `${options.domain}/api-${options.name}`
-    ).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    ).forEach((expectedChange) => {
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 
   it('should contain files related to testing', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalTestingFiles(`${options.domain}/api-${options.name}`).forEach(
+    generalTestingChanges(`${options.domain}/api-${options.name}`).forEach(
       (expectedFile) => {
-        expect(changes).toContain(expectedFile);
+        expect(changes).toContainEqual(expectedFile);
       }
     );
   });

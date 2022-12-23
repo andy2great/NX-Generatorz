@@ -2,10 +2,10 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import {
   changeIs,
-  generalProjectFiles,
+  generalProjectChanges,
   nxFiles,
-  generalTestingFiles,
-  domainProjectFiles,
+  generalTestingChanges,
+  domainProjectChanges,
 } from '../../helpers/test-helper';
 
 import generator from './generator';
@@ -36,37 +36,49 @@ describe('domain generator', () => {
   });
 
   it('should contain base NX files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
     nxFiles.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should contain general project files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalProjectFiles(
+    generalProjectChanges(
       `${options.name}-domain`,
       `${options.name}/domain`
-    ).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    ).forEach((expectedChange) => {
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 
   it('should contain domain specific project files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    domainProjectFiles(`${options.name}/domain`).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    domainProjectChanges(`${options.name}/domain`).forEach((expectedFile) => {
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should contain files related to testing', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalTestingFiles(`${options.name}/domain`).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    generalTestingChanges(`${options.name}/domain`).forEach((expectedFile) => {
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 

@@ -5,8 +5,8 @@ import generator from './generator';
 import { DddUiGeneratorSchema } from './schema';
 import {
   changeIs,
-  generalProjectFiles,
-  generalTestingFiles,
+  generalProjectChanges,
+  generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
 
@@ -38,30 +38,41 @@ describe('domain generator', () => {
   });
 
   it('should contain base NX files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
     nxFiles.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should contain general project files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalProjectFiles(
+    generalProjectChanges(
       `shared-ui-${options.name}`,
       `shared/ui-${options.name}`
-    ).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    ).forEach((expectedChange) => {
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 
   it('should contain testing files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalTestingFiles(`shared/ui-${options.name}`).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
-    });
+    generalTestingChanges(`shared/ui-${options.name}`).forEach(
+      (expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      }
+    );
   });
 
   it("should generate the correct tags in the UI's project.json", () => {

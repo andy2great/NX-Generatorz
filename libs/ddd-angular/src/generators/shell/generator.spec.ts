@@ -24,6 +24,7 @@ describe('domain generator', () => {
 
   it('should generate a shell inside a domain', async () => {
     const config = readProjectConfiguration(appTree, 'testing-area-shell-test');
+
     expect(config).toBeDefined();
   });
 
@@ -36,26 +37,50 @@ describe('domain generator', () => {
   });
 
   it('should contain base NX files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
     nxFiles.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should generate shell specific files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
     const expectedChanges = [
-      `libs/${options.domain}/shell-${options.name}/tsconfig.lib.json`,
-      `libs/${options.domain}/shell-${options.name}/src/index.ts`,
-      `libs/${options.domain}/shell-${options.name}/src/lib/${options.domain}-shell-${options.name}.module.ts`,
-      `libs/${options.domain}/shell-${options.name}/project.json`,
-      `libs/${options.domain}/shell-${options.name}/tsconfig.json`,
-      `libs/${options.domain}/shell-${options.name}/.eslintrc.json`,
+      {
+        path: `libs/${options.domain}/shell-${options.name}/tsconfig.lib.json`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/shell-${options.name}/src/index.ts`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/shell-${options.name}/src/lib/${options.domain}-shell-${options.name}.module.ts`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/shell-${options.name}/project.json`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/shell-${options.name}/tsconfig.json`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/shell-${options.name}/.eslintrc.json`,
+        type: 'CREATE',
+      },
     ];
 
-    expectedChanges.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    expectedChanges.forEach((expectedChange) => {
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 

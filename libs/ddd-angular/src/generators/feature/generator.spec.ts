@@ -6,8 +6,8 @@ import generator from './generator';
 import { DddFeatureGeneratorSchema } from './schema';
 import {
   changeIs,
-  generalProjectFiles,
-  generalTestingFiles,
+  generalProjectChanges,
+  generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
 
@@ -44,47 +44,77 @@ describe('feature generator', () => {
   });
 
   it('should contain base NX files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
     nxFiles.forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+      expect(changes).toContainEqual(expectedFile);
     });
   });
 
   it('should contain general project files', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalProjectFiles(
+    generalProjectChanges(
       `${options.domain}-feature-${options.name}`,
       `${options.domain}/feature-${options.name}`
-    ).forEach((expectedFile) => {
-      expect(changes).toContain(expectedFile);
+    ).forEach((expectedChange) => {
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 
   it('should contain files related to testing', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
 
-    generalTestingFiles(`${options.domain}/feature-${options.name}`).forEach(
+    generalTestingChanges(`${options.domain}/feature-${options.name}`).forEach(
       (expectedFile) => {
-        expect(changes).toContain(expectedFile);
+        expect(changes).toContainEqual(expectedFile);
       }
     );
   });
 
   it('should generate a default facade, model, data-service, and component in the domain', () => {
-    const changes = appTree.listChanges().map((change) => change.path);
+    const changes = appTree.listChanges().map((change) => ({
+      type: change.type,
+      path: change.path,
+    }));
     const expectedChanges = [
-      `libs/${options.domain}/domain/src/lib/application/feature-${options.name}.facade.ts`,
-      `libs/${options.domain}/domain/src/lib/entities/${options.name}.ts`,
-      `libs/${options.domain}/domain/src/lib/infrastructure/${options.name}.data.service.ts`,
-      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.html`,
-      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.scss`,
-      `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.ts`,
+      {
+        path: `libs/${options.domain}/domain/src/lib/application/feature-${options.name}.facade.ts`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/domain/src/lib/entities/${options.name}.ts`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/domain/src/lib/infrastructure/${options.name}.data.service.ts`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.html`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.scss`,
+        type: 'CREATE',
+      },
+      {
+        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.ts`,
+        type: 'CREATE',
+      },
     ];
 
     expectedChanges.forEach((expectedChange) => {
-      expect(changes).toContain(expectedChange);
+      expect(changes).toContainEqual(expectedChange);
     });
   });
 
