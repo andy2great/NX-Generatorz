@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "version-bump": {
+      "implementation": "./src/executors/version-bump/executor",
+      "schema": "./src/executors/version-bump/schema.json",
+      "description": "Updates the version of a project"
+    }
+  }
+}

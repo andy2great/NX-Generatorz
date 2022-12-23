@@ -1,0 +1,6 @@
+{
+  "name": "@nx-generatorz/npm",
+  "version": "3.0.6",
+  "type": "commonjs",
+  "executors": "executors.json"
+}
