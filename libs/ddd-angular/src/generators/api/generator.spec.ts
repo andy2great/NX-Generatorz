@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration, getProjects } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';

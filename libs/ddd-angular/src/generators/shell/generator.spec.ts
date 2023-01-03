@@ -6,6 +6,8 @@ import generator from './generator';
 import { DddShellGeneratorSchema } from './schema';
 import { changeIs, nxFiles } from '../../helpers/test-helper';
 
+const defaultOptions = { domain: 'test-area', name: 'test' };
+
 describe('domain generator', () => {
   let appTree: Tree;
   const options: DddShellGeneratorSchema = {
@@ -96,5 +98,21 @@ describe('domain generator', () => {
     });
   });
 
-  it('should throw an error if the project is not a domain');
+  it('should throw an error if the project is not a domain', async () => {
+    const creationCall = async () =>
+      await setup(appTree, {
+        domain: 'non-existent domain',
+        name: 'new test',
+      });
+
+    await expect(creationCall).rejects.toThrow();
+  });
 });
+
+const setup = async (tree: Tree, options = defaultOptions) => {
+  const { name, domain } = options;
+  await generator(tree, {
+    name,
+    domain: `${domain}-domain`,
+  });
+};
