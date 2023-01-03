@@ -2,7 +2,6 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { DddUtilGeneratorSchema } from './schema';
 import {
   changeIs,
   generalProjectChanges,
@@ -10,26 +9,29 @@ import {
   nxFiles,
 } from '../../helpers/test-helper';
 
+const defaultOptions = { name: 'test' };
+
 describe('util generator', () => {
   let appTree: Tree;
-  const options: DddUtilGeneratorSchema = {
-    name: 'test',
-  };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await generator(appTree, options);
   });
 
   it('should generate a shared util', async () => {
+    await setup(appTree);
+
     const config = readProjectConfiguration(
       appTree,
-      `shared-util-${options.name}`
+      `shared-util-${defaultOptions.name}`
     );
+
     expect(config).toBeDefined();
   });
 
-  it("shouldn't contain any READMEs", () => {
+  it("shouldn't contain any READMEs", async () => {
+    await setup(appTree);
+
     const readme = appTree
       .listChanges()
       .find((change) => changeIs(change, 'readme.md'));
@@ -37,7 +39,9 @@ describe('util generator', () => {
     expect(readme).toBeUndefined();
   });
 
-  it('should contain base NX files', () => {
+  it('should contain base NX files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
@@ -48,37 +52,43 @@ describe('util generator', () => {
     });
   });
 
-  it('should contain general project files', () => {
+  it('should contain general project files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
     generalProjectChanges(
-      `shared-util-${options.name}`,
-      `shared/util-${options.name}`
+      `shared-util-${defaultOptions.name}`,
+      `shared/util-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
   });
 
-  it('should contain testing files', () => {
+  it('should contain testing files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
-    generalTestingChanges(`shared/util-${options.name}`).forEach(
+    generalTestingChanges(`shared/util-${defaultOptions.name}`).forEach(
       (expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       }
     );
   });
 
-  it("should generate the correct tags in the util's project.json", () => {
+  it("should generate the correct tags in the util's project.json", async () => {
+    await setup(appTree);
+
     const project = readProjectConfiguration(
       appTree,
-      `shared-util-${options.name}`
+      `shared-util-${defaultOptions.name}`
     );
     const expectedTags = ['domain:shared', 'type:util'];
 
@@ -87,3 +97,10 @@ describe('util generator', () => {
     });
   });
 });
+
+const setup = async (tree: Tree, options = defaultOptions) => {
+  const { name } = options;
+  await generator(tree, {
+    name,
+  });
+};

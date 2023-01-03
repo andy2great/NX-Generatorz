@@ -2,7 +2,6 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { DddUiGeneratorSchema } from './schema';
 import {
   changeIs,
   generalProjectChanges,
@@ -10,26 +9,29 @@ import {
   nxFiles,
 } from '../../helpers/test-helper';
 
+const defaultOptions = { domain: 'test-area', name: 'test' };
+
 describe('domain generator', () => {
   let appTree: Tree;
-  const options: DddUiGeneratorSchema = {
-    name: 'test',
-  };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await generator(appTree, options);
   });
 
   it('should generate a shared UI', async () => {
+    await setup(appTree);
+
     const config = readProjectConfiguration(
       appTree,
-      `shared-ui-${options.name}`
+      `shared-ui-${defaultOptions.name}`
     );
+
     expect(config).toBeDefined();
   });
 
-  it("shouldn't contain any READMEs", () => {
+  it("shouldn't contain any READMEs", async () => {
+    await setup(appTree);
+
     const readme = appTree
       .listChanges()
       .find((change) => changeIs(change, 'readme.md'));
@@ -37,7 +39,9 @@ describe('domain generator', () => {
     expect(readme).toBeUndefined();
   });
 
-  it('should contain base NX files', () => {
+  it('should contain base NX files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
@@ -48,37 +52,43 @@ describe('domain generator', () => {
     });
   });
 
-  it('should contain general project files', () => {
+  it('should contain general project files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
     generalProjectChanges(
-      `shared-ui-${options.name}`,
-      `shared/ui-${options.name}`
+      `shared-ui-${defaultOptions.name}`,
+      `shared/ui-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
   });
 
-  it('should contain testing files', () => {
+  it('should contain testing files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
-    generalTestingChanges(`shared/ui-${options.name}`).forEach(
+    generalTestingChanges(`shared/ui-${defaultOptions.name}`).forEach(
       (expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       }
     );
   });
 
-  it("should generate the correct tags in the UI's project.json", () => {
+  it("should generate the correct tags in the UI's project.json", async () => {
+    await setup(appTree);
+
     const project = readProjectConfiguration(
       appTree,
-      `shared-ui-${options.name}`
+      `shared-ui-${defaultOptions.name}`
     );
     const expectedTags = ['domain:shared', 'type:ui'];
 
@@ -87,3 +97,10 @@ describe('domain generator', () => {
     });
   });
 });
+
+const setup = async (tree: Tree, options = defaultOptions) => {
+  const { name } = options;
+  await generator(tree, {
+    name,
+  });
+};

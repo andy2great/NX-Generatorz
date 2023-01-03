@@ -3,34 +3,32 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { DddShellGeneratorSchema } from './schema';
 import { changeIs, nxFiles } from '../../helpers/test-helper';
 
 const defaultOptions = { domain: 'test-area', name: 'test' };
 
 describe('domain generator', () => {
   let appTree: Tree;
-  const options: DddShellGeneratorSchema = {
-    name: 'test',
-    domain: `testing-area`,
-  };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await domainGenerator(appTree, { name: options.domain });
-    await generator(appTree, {
-      domain: `${options.domain}-domain`,
-      name: options.name,
-    });
+    await domainGenerator(appTree, { name: defaultOptions.domain });
   });
 
   it('should generate a shell inside a domain', async () => {
-    const config = readProjectConfiguration(appTree, 'testing-area-shell-test');
+    await setup(appTree);
+
+    const config = readProjectConfiguration(
+      appTree,
+      `${defaultOptions.domain}-shell-${defaultOptions.name}`
+    );
 
     expect(config).toBeDefined();
   });
 
-  it("shouldn't contain any READMEs", () => {
+  it("shouldn't contain any READMEs", async () => {
+    await setup(appTree);
+
     const readme = appTree
       .listChanges()
       .find((change) => changeIs(change, 'readme.md'));
@@ -38,7 +36,9 @@ describe('domain generator', () => {
     expect(readme).toBeUndefined();
   });
 
-  it('should contain base NX files', () => {
+  it('should contain base NX files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
@@ -49,34 +49,36 @@ describe('domain generator', () => {
     });
   });
 
-  it('should generate shell specific files', () => {
+  it('should generate shell specific files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
     const expectedChanges = [
       {
-        path: `libs/${options.domain}/shell-${options.name}/tsconfig.lib.json`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/tsconfig.lib.json`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/shell-${options.name}/src/index.ts`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/src/index.ts`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/shell-${options.name}/src/lib/${options.domain}-shell-${options.name}.module.ts`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/src/lib/${defaultOptions.domain}-shell-${defaultOptions.name}.module.ts`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/shell-${options.name}/project.json`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/project.json`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/shell-${options.name}/tsconfig.json`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/tsconfig.json`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/shell-${options.name}/.eslintrc.json`,
+        path: `libs/${defaultOptions.domain}/shell-${defaultOptions.name}/.eslintrc.json`,
         type: 'CREATE',
       },
     ];
@@ -86,12 +88,17 @@ describe('domain generator', () => {
     });
   });
 
-  it("should generate the correct tags in the shell's project.json", () => {
+  it("should generate the correct tags in the shell's project.json", async () => {
+    await setup(appTree);
+
     const project = readProjectConfiguration(
       appTree,
-      `${options.domain}-shell-${options.name}`
+      `${defaultOptions.domain}-shell-${defaultOptions.name}`
     );
-    const expectedTags = [`domain:${options.domain}-domain`, 'type:shell'];
+    const expectedTags = [
+      `domain:${defaultOptions.domain}-domain`,
+      'type:shell',
+    ];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);

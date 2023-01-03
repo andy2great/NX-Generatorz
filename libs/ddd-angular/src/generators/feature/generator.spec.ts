@@ -3,7 +3,6 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { DddFeatureGeneratorSchema } from './schema';
 import {
   changeIs,
   generalProjectChanges,
@@ -11,33 +10,30 @@ import {
   nxFiles,
 } from '../../helpers/test-helper';
 
-const defaultOptions = { domain: 'test-area', name: 'test' };
+const defaultOptions = { domain: 'testing-area', name: 'test' };
 
 describe('feature generator', () => {
   let appTree: Tree;
-  const options: DddFeatureGeneratorSchema = {
-    name: 'test',
-    domain: 'testing-area',
-  };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await domainGenerator(appTree, { name: options.domain });
-    await generator(appTree, {
-      domain: `${options.domain}-domain`,
-      name: options.name,
-    });
+    await domainGenerator(appTree, { name: defaultOptions.domain });
   });
 
   it('should generate a feature', async () => {
+    await setup(appTree);
+
     const config = readProjectConfiguration(
       appTree,
       'testing-area-feature-test'
     );
+
     expect(config).toBeDefined();
   });
 
-  it("shouldn't contain any READMEs", () => {
+  it("shouldn't contain any READMEs", async () => {
+    await setup(appTree);
+
     const readme = appTree
       .listChanges()
       .find((change) => changeIs(change, 'readme.md'));
@@ -45,7 +41,9 @@ describe('feature generator', () => {
     expect(readme).toBeUndefined();
   });
 
-  it('should contain base NX files', () => {
+  it('should contain base NX files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
@@ -56,61 +54,67 @@ describe('feature generator', () => {
     });
   });
 
-  it('should contain general project files', () => {
+  it('should contain general project files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
     generalProjectChanges(
-      `${options.domain}-feature-${options.name}`,
-      `${options.domain}/feature-${options.name}`
+      `${defaultOptions.domain}-feature-${defaultOptions.name}`,
+      `${defaultOptions.domain}/feature-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
   });
 
-  it('should contain files related to testing', () => {
+  it('should contain files related to testing', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
-    generalTestingChanges(`${options.domain}/feature-${options.name}`).forEach(
-      (expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      }
-    );
+    generalTestingChanges(
+      `${defaultOptions.domain}/feature-${defaultOptions.name}`
+    ).forEach((expectedFile) => {
+      expect(changes).toContainEqual(expectedFile);
+    });
   });
 
-  it('should generate a default facade, model, data-service, and component in the domain', () => {
+  it('should generate a default facade, model, data-service, and component in the domain', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
     const expectedChanges = [
       {
-        path: `libs/${options.domain}/domain/src/lib/application/feature-${options.name}.facade.ts`,
+        path: `libs/${defaultOptions.domain}/domain/src/lib/application/feature-${defaultOptions.name}.facade.ts`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/domain/src/lib/entities/${options.name}.ts`,
+        path: `libs/${defaultOptions.domain}/domain/src/lib/entities/${defaultOptions.name}.ts`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/domain/src/lib/infrastructure/${options.name}.data.service.ts`,
+        path: `libs/${defaultOptions.domain}/domain/src/lib/infrastructure/${defaultOptions.name}.data.service.ts`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.html`,
+        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.html`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.scss`,
+        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.scss`,
         type: 'CREATE',
       },
       {
-        path: `libs/${options.domain}/feature-${options.name}/src/lib/feature-${options.name}.component.ts`,
+        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.ts`,
         type: 'CREATE',
       },
     ];
@@ -120,12 +124,14 @@ describe('feature generator', () => {
     });
   });
 
-  it("should generate the correct tags in the feature's project.json", () => {
+  it("should generate the correct tags in the feature's project.json", async () => {
+    await setup(appTree);
+
     const project = readProjectConfiguration(
       appTree,
-      `${options.domain}-feature-${options.name}`
+      `${defaultOptions.domain}-feature-${defaultOptions.name}`
     );
-    const expectedTags = [`domain:${options.domain}`, 'type:feature'];
+    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:feature'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
