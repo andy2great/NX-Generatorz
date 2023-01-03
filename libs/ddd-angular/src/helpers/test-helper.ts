@@ -5,9 +5,9 @@ interface TreeOperation {
 }
 
 /**
- * Returns a list of files that should be generated when running most of the generators
+ * Returns a list of base project files that should be generated when running most of the generators
  * @param projectName The name of the project we expect, taking the format of {domainName}-api-{projectName}
- * @param projectPath The path including, typically in the format of {domainName}/api-{projectName}
+ * @param projectPath The path including the domain, typically in the format of {domainName}/api-{projectName}
  * @returns A list of tree operations expected to be performed by NX, ex. `[{ path: 'package.json', type: 'CREATE' }]`
  */
 export const generalProjectChanges = (
@@ -32,7 +32,12 @@ export const generalProjectChanges = (
   { path: `libs/${projectPath}/.eslintrc.json`, type: 'CREATE' },
 ];
 
-export const domainProjectChanges = (projectPath: string) => [
+/**
+ * Returns a list of project files that should be generated when running the domain generator
+ * @param projectPath The path including the domain, typically in the format of {domainName}/api-{projectName}
+ * @returns A list of tree operations expected to be performed by NX, ex. `[{ path: `libs/${projectPath}/src/lib/application/.gitkeep`, type: 'CREATE' }]`
+ */
+export const domainProjectChanges = (projectPath: string): TreeOperation[] => [
   { path: `libs/${projectPath}/src/lib/application/.gitkeep`, type: 'CREATE' },
   { path: `libs/${projectPath}/src/lib/entities/.gitkeep`, type: 'CREATE' },
   {
@@ -41,7 +46,12 @@ export const domainProjectChanges = (projectPath: string) => [
   },
 ];
 
-export const generalTestingChanges = (projectPath: string) => [
+/**
+ * Returns a list of test files that should be generated when running most generators
+ * @param projectPath The path including the domain, typically in the format of {domainName}/api-{projectName}
+ * @returns A list of tree operations expected to be performed by NX, ex. `[{ path: 'jest.config.ts', type: 'CREATE' }]`
+ */
+export const generalTestingChanges = (projectPath: string): TreeOperation[] => [
   { path: 'jest.config.ts', type: 'CREATE' },
   { path: 'jest.preset.js', type: 'CREATE' },
   { path: `libs/${projectPath}/tsconfig.spec.json`, type: 'CREATE' },
@@ -49,7 +59,17 @@ export const generalTestingChanges = (projectPath: string) => [
   { path: `libs/${projectPath}/src/test-setup.ts`, type: 'CREATE' },
 ];
 
-export const nxFiles = [{ path: 'nx.json', type: 'CREATE' }];
+/**
+ * A file that is always generated if it does not exist.
+ * All tests should start with an empty workspace, so this should always be created.
+ */
+export const nxFiles: TreeOperation[] = [{ path: 'nx.json', type: 'CREATE' }];
 
-export const changeIs = (changes: { path: string }, fileName: string) =>
-  basename(changes.path.toLocaleLowerCase()) === fileName;
+/**
+ * Verifies that a change's file path ends with a certain filename
+ * @param change A change performed to NX's tree object
+ * @param fileName A file name that the change should end with
+ * @returns true if path ends with the file's name, false otherwise
+ */
+export const changeIs = (change: { path: string }, fileName: string): boolean =>
+  basename(change.path.toLocaleLowerCase()) === fileName;
