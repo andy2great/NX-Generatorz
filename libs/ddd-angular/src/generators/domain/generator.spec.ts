@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import {
   changeIs,
   generalProjectChanges,
@@ -17,6 +17,13 @@ describe('domain generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write(
+      'angular.json',
+      JSON.stringify({
+        version: 2,
+        projects: {},
+      })
+    );
   });
 
   it('should generate a domain', async () => {
@@ -111,6 +118,16 @@ describe('domain generator', () => {
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
     });
+  });
+
+  it('should add the new project to angular.json', async () => {
+    await setup(appTree);
+
+    const angularJson = readJson(appTree, 'angular.json');
+
+    expect(angularJson.projects).toHaveProperty(
+      `${defaultOptions.name}-domain`
+    );
   });
 });
 

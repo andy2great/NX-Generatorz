@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
 import generator from './generator';
 import {
@@ -16,6 +16,13 @@ describe('util generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write(
+      'angular.json',
+      JSON.stringify({
+        version: 2,
+        projects: {},
+      })
+    );
   });
 
   it('should generate a shared util', async () => {
@@ -95,6 +102,16 @@ describe('util generator', () => {
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
     });
+  });
+
+  it('should add the new project to angular.json', async () => {
+    await setup(appTree);
+
+    const angularJson = readJson(appTree, 'angular.json');
+
+    expect(angularJson.projects).toHaveProperty(
+      `shared-util-${defaultOptions.name}`
+    );
   });
 });
 
