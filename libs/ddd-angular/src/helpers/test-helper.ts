@@ -1,15 +1,19 @@
 import { basename } from 'path';
+interface TreeOperation {
+  path: string;
+  type: string;
+}
 
 /**
- * Returns a list of files that should be generated when running
- * @param projectName
- * @param projectPath
- * @returns
+ * Returns a list of files that should be generated when running most of the generators
+ * @param projectName The name of the project we expect, taking the format of {domainName}-api-{projectName}
+ * @param projectPath The path including, typically in the format of {domainName}/api-{projectName}
+ * @returns A list of tree operations expected to be performed by NX, ex. `[{ path: 'package.json', type: 'CREATE' }]`
  */
 export const generalProjectChanges = (
   projectName: string,
   projectPath: string
-) => [
+): TreeOperation[] => [
   { path: '.prettierrc', type: 'CREATE' },
   { path: 'package.json', type: 'CREATE' },
   { path: 'tsconfig.base.json', type: 'CREATE' },
