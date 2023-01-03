@@ -1,9 +1,8 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree, readProjectConfiguration, getProjects } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { DddApiGeneratorSchema } from './schema';
 import {
   changeIs,
   generalProjectChanges,
@@ -11,32 +10,30 @@ import {
   nxFiles,
 } from '../../helpers/test-helper';
 
+const defaultOptions = { domain: 'test-area', name: 'test' };
+
 describe('api generator', () => {
   let appTree: Tree;
-  const options: DddApiGeneratorSchema = {
-    name: 'test',
-    domain: 'testing-area',
-  };
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
-    await domainGenerator(appTree, { name: options.domain });
-    await generator(appTree, {
-      name: options.name,
-      domain: `${options.domain}-domain`,
-    });
+    await domainGenerator(appTree, { name: defaultOptions.domain });
   });
 
   it('should generate an api', async () => {
+    await setup(appTree);
+
     const config = readProjectConfiguration(
       appTree,
-      `${options.domain}-api-${options.name}`
+      `${defaultOptions.domain}-api-${defaultOptions.name}`
     );
 
     expect(config).toBeDefined();
   });
 
-  it("shouldn't contain any READMEs", () => {
+  it("shouldn't contain any READMEs", async () => {
+    await setup(appTree);
+
     const readme = appTree
       .listChanges()
       .find((change) => changeIs(change, 'readme.md'));
@@ -44,7 +41,9 @@ describe('api generator', () => {
     expect(readme).toBeUndefined();
   });
 
-  it('should contain base NX files', () => {
+  it('should contain base NX files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
@@ -55,44 +54,66 @@ describe('api generator', () => {
     });
   });
 
-  it('should contain general project files', () => {
+  it('should contain general project files', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
     generalProjectChanges(
-      `${options.domain}-api-${options.name}`,
-      `${options.domain}/api-${options.name}`
+      `${defaultOptions.domain}-api-${defaultOptions.name}`,
+      `${defaultOptions.domain}/api-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
   });
 
-  it('should contain files related to testing', () => {
+  it('should contain files related to testing', async () => {
+    await setup(appTree);
+
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
 
-    generalTestingChanges(`${options.domain}/api-${options.name}`).forEach(
-      (expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      }
-    );
+    generalTestingChanges(
+      `${defaultOptions.domain}/api-${defaultOptions.name}`
+    ).forEach((expectedFile) => {
+      expect(changes).toContainEqual(expectedFile);
+    });
   });
 
-  it("should generate the correct tags in the api's project.json", () => {
+  it("should generate the correct tags in the api's project.json", async () => {
+    await setup(appTree);
+
     const project = readProjectConfiguration(
       appTree,
-      `${options.domain}-api-${options.name}`
+      `${defaultOptions.domain}-api-${defaultOptions.name}`
     );
-    const expectedTags = [`domain:${options.domain}`, 'type:api'];
+    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:api'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
     });
   });
 
-  it('should throw an error if the project is not a domain');
+  it('should throw an error if the project is not a domain', async () => {
+    const creationCall = async () =>
+      await setup(appTree, {
+        domain: 'non-existent domain',
+        name: 'new test',
+      });
+
+    await expect(creationCall).rejects.toThrow();
+  });
 });
+
+const setup = async (tree: Tree, options = defaultOptions) => {
+  const { name, domain } = options;
+  await generator(tree, {
+    name,
+    domain: `${domain}-domain`,
+  });
+};
