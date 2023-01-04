@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "SbGen",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project for which to generate Storybook configuration.",
+      "x-prompt": "Which project would you like to setup Storybook on?",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "uiFramework": {
+      "type": "string",
+      "description": "Storybook UI Framework to use.",
+      "enum": [
+        "@storybook/angular",
+        "@storybook/react",
+        "@storybook/react-native",
+        "@storybook/html",
+        "@storybook/web-components",
+        "@storybook/vue",
+        "@storybook/vue3",
+        "@storybook/svelte"
+      ],
+      "x-prompt": "What UI framework plugin should storybook use?"
+    }
+  },
+  "required": ["name", "uiFramework"]
+}
