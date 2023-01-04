@@ -3,11 +3,7 @@
   "version": "3.0.3",
   "license": "MIT",
   "scripts": {
-    "ng": "nx",
-    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
-    "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test"
+    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main"
   },
   "private": true,
   "dependencies": {
