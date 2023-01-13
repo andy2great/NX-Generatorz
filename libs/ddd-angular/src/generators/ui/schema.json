@@ -13,6 +13,19 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
+    },
+    "shared": {
+      "type": "boolean",
+      "description": "Does it belong to a domain?",
+      "default": true
+    },
+    "domain": {
+      "type": "string",
+      "description": "The domain to add the ui",
+      "x-prompt": "What domain would you like to use?",
+      "$default": {
+        "$source": "projectName"
+      }
     }
   },
   "required": ["name"]
