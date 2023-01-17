@@ -38,6 +38,18 @@ jobs:
         with:
           node-version: ${{ env.node_version }}
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: npm ci
+
       - run: npx nx run-many --target=build --all=true
       - run: npx nx run-many --target=test --all=true
