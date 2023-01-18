@@ -138,9 +138,7 @@ describe('domain generator', () => {
       domain.rename('new name');
       const angularJson = readJson(appTree, 'angular.json');
 
-      expect(angularJson.projects).toHaveProperty(
-        `new-name-domain`
-      );
+      expect(angularJson.projects).toHaveProperty(`new-name-domain`);
     });
 
     it('should rename the project folder', async () => {
@@ -152,9 +150,7 @@ describe('domain generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `new-name/domain`
-      ).forEach((expectedFile) => {
+      generalTestingChanges(`new-name/domain`).forEach((expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       });
     });

@@ -148,11 +148,11 @@ describe('api generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `${defaultOptions.domain}/api-new-name`
-      ).forEach((expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      });
+      generalTestingChanges(`${defaultOptions.domain}/api-new-name`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
     });
   });
 });
@@ -163,5 +163,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
-  return new API(tree, `${domain}-api-${name}`)
+  return new API(tree, `${domain}-api-${name}`);
 };

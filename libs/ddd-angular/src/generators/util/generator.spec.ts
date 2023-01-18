@@ -122,9 +122,7 @@ describe('util generator', () => {
       util.rename('new name');
       const angularJson = readJson(appTree, 'angular.json');
 
-      expect(angularJson.projects).toHaveProperty(
-        `shared-util-new-name`
-      );
+      expect(angularJson.projects).toHaveProperty(`shared-util-new-name`);
     });
 
     it('should rename the project folder', async () => {
@@ -136,9 +134,7 @@ describe('util generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `shared/util-new-name`
-      ).forEach((expectedFile) => {
+      generalTestingChanges(`shared/util-new-name`).forEach((expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       });
     });
@@ -150,5 +146,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
   await generator(tree, {
     name,
   });
-  return new Util(tree, `shared-util-${name}`)
+  return new Util(tree, `shared-util-${name}`);
 };

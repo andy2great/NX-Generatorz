@@ -3,7 +3,11 @@ import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { changeIs, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
+import {
+  changeIs,
+  generalTestingChanges,
+  nxFiles,
+} from '../../helpers/test-helper';
 import { Shell } from '../../model';
 
 const defaultOptions = { domain: 'test-area', name: 'test' };
@@ -103,10 +107,7 @@ describe('domain generator', () => {
       appTree,
       `${defaultOptions.domain}-shell-${defaultOptions.name}`
     );
-    const expectedTags = [
-      `domain:${defaultOptions.domain}`,
-      'type:shell',
-    ];
+    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:shell'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
@@ -154,11 +155,11 @@ describe('domain generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `${defaultOptions.domain}/shell-new-name`
-      ).forEach((expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      });
+      generalTestingChanges(`${defaultOptions.domain}/shell-new-name`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
     });
   });
 });
