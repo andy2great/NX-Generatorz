@@ -164,7 +164,7 @@ describe('domain generator', () => {
     it.each([
       ['feature', featureGenerator],
       ['shell', shellGenerator],
-      ['api', apiGenerator]
+      ['api', apiGenerator],
     ])('should update the folder for %s', async (type, affectedGenerator) => {
       const domain = await setup(appTree);
       await affectedGenerator(appTree, {
@@ -178,11 +178,11 @@ describe('domain generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `new-name/${type}-${defaultOptions.name}`
-      ).forEach((expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      });
+      generalTestingChanges(`new-name/${type}-${defaultOptions.name}`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
     });
   });
 });

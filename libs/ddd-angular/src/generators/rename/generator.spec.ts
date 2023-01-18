@@ -3,14 +3,11 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { generalTestingChanges } from '../../helpers/test-helper';
 import domainGenerator from '../domain/generator';
 import renameGenerator from './generator';
-import { libraryGenerator } from '@nrwl/angular/generators'; 
+import { libraryGenerator } from '@nrwl/angular/generators';
 
 const defaultOptions = { domain: 'test-area', name: 'test' };
 
-const setupWithDomain = async (
-  tree: Tree,
-  options = defaultOptions
-) => {
+const setupWithDomain = async (tree: Tree, options = defaultOptions) => {
   const { domain } = options;
 
   await domainGenerator(tree, { name: domain });
@@ -39,8 +36,8 @@ describe('rename generator', () => {
   });
 
   it('should fail if the project does not exist', async () => {
-    await setupWithDomain(appTree)
-    
+    await setupWithDomain(appTree);
+
     await expect(
       renameGenerator(appTree, { project: 'invalid name', rename: 'test' })
     ).rejects.toThrowError();
@@ -50,7 +47,10 @@ describe('rename generator', () => {
     await setupCustomLib(appTree, defaultOptions.name);
 
     await expect(
-      renameGenerator(appTree, { project: defaultOptions.name, rename: 'another-name' })
+      renameGenerator(appTree, {
+        project: defaultOptions.name,
+        rename: 'another-name',
+      })
     ).rejects.toThrowError();
   });
 
@@ -60,27 +60,35 @@ describe('rename generator', () => {
     'type:shell',
     'type:feature',
     'type:ui',
-    'type:util'
+    'type:util',
   ])('should succeed if project type is %s', async (tag) => {
-    await setupCustomLib(appTree, defaultOptions.name, `${tag},domain:${defaultOptions.domain}`);
+    await setupCustomLib(
+      appTree,
+      defaultOptions.name,
+      `${tag},domain:${defaultOptions.domain}`
+    );
 
     await expect(
-      renameGenerator(appTree, { project: defaultOptions.name, rename: 'another-name' })
+      renameGenerator(appTree, {
+        project: defaultOptions.name,
+        rename: 'another-name',
+      })
     ).resolves.not.toThrowError();
   });
 
   it('should succeed if the project exists', async () => {
     await setupWithDomain(appTree);
 
-    await renameGenerator(appTree, { project: `${defaultOptions.domain}-domain`, rename: 'test' })
+    await renameGenerator(appTree, {
+      project: `${defaultOptions.domain}-domain`,
+      rename: 'test',
+    });
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
-  
-    generalTestingChanges(
-      `test/domain`
-    ).forEach((expectedFile) => {
+
+    generalTestingChanges(`test/domain`).forEach((expectedFile) => {
       expect(changes).toContainEqual(expectedFile);
     });
   });
