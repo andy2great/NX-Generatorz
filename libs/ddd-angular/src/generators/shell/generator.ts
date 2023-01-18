@@ -16,7 +16,6 @@ export default async function (tree: Tree, options: DddShellGeneratorSchema) {
     ...options,
     name: `shell-${options.name}`,
     directory: domainName,
-    unitTestRunner: 'none' as any,
     tags: `${domainTagFormat(domainName)},type:shell`,
   });
   removeFiles(tree, `${domainName}-shell-${options.name}`);

@@ -3,7 +3,8 @@ import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { changeIs, nxFiles } from '../../helpers/test-helper';
+import { changeIs, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
+import { Shell } from '../../model';
 
 const defaultOptions = { domain: 'test-area', name: 'test' };
 
@@ -131,6 +132,35 @@ describe('domain generator', () => {
       `${defaultOptions.domain}-shell-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const shell = await setup(appTree);
+
+      shell.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.domain}-shell-new-name`
+      );
+    });
+
+    it('should rename the project folder', async () => {
+      const shell = await setup(appTree);
+
+      shell.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(
+        `${defaultOptions.domain}/shell-new-name`
+      ).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -139,4 +169,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
+  return new Shell(tree, `${domain}-shell-${name}`);
 };

@@ -139,8 +139,24 @@ describe('domain generator', () => {
       const angularJson = readJson(appTree, 'angular.json');
 
       expect(angularJson.projects).toHaveProperty(
-        `${defaultOptions.name}-api-new-name`
+        `new-name-domain`
       );
+    });
+
+    it('should rename the project folder', async () => {
+      const domain = await setup(appTree);
+
+      domain.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(
+        `new-name/domain`
+      ).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
     });
   });
 });
@@ -150,5 +166,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
   await generator(tree, {
     name,
   });
-  return new Domain(tree, name);
+  return new Domain(tree, `${name}-domain`);
 };

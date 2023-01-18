@@ -9,6 +9,7 @@ import {
   generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
+import { Feature } from '../../model';
 
 const defaultOptions = { domain: 'testing-area', name: 'test' };
 
@@ -164,6 +165,36 @@ describe('feature generator', () => {
       `${defaultOptions.domain}-feature-${defaultOptions.name}`
     );
   });
+
+  
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const feature = await setup(appTree);
+
+      feature.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.domain}-feature-new-name`
+      );
+    });
+
+    it('should rename the project folder', async () => {
+      const feature = await setup(appTree);
+
+      feature.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(
+        `${defaultOptions.domain}/feature-new-name`
+      ).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -172,4 +203,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
+  return new Feature(tree, `${domain}-feature-${name}`);
 };
