@@ -6,7 +6,6 @@ import {
 } from '@nrwl/devkit';
 import { readProjectConfiguration } from '@nrwl/devkit';
 import { moveGenerator } from '@nrwl/workspace/generators';
-import { domainNameFromProject } from '../helpers/domain-helper';
 
 export abstract class DDDObject {
   abstract readonly prefix: string;
@@ -39,11 +38,5 @@ export abstract class DDDObject {
       updateImportPath: true,
       destination: adjustedPath,
     });
-    this.project = this.makeProjectName(updatedName);
   }
-
-  makeProjectName = (name: string) => {
-    const domainName = domainNameFromProject(this.tree, this.project);
-    return `${domainName}-${this.prefix}-${name}`;
-  };
 }

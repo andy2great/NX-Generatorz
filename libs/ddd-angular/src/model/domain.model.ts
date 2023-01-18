@@ -59,11 +59,5 @@ export class Domain extends DDDObject {
           destination: adjustedPath,
         });
       });
-
-    this.project = this.makeProjectName(updatedName);
   }
-
-  override makeProjectName = (name: string) => {
-    return `${name}-${this.prefix}`;
-  };
 }
