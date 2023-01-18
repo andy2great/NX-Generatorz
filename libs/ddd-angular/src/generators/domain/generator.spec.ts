@@ -117,7 +117,10 @@ describe('domain generator', () => {
       appTree,
       `${defaultOptions.domain}-domain`
     );
-    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:domain-logic'];
+    const expectedTags = [
+      `domain:${defaultOptions.domain}`,
+      'type:domain-logic',
+    ];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
