@@ -117,7 +117,10 @@ describe('domain generator', () => {
       appTree,
       `${defaultOptions.domain}-domain`
     );
-    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:domain-logic'];
+    const expectedTags = [
+      `domain:${defaultOptions.domain}`,
+      'type:domain-logic',
+    ];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
@@ -161,7 +164,7 @@ describe('domain generator', () => {
     it.each([
       { generate: featureGenerator, name: 'feature' },
       { generate: shellGenerator, name: 'shell' },
-      { generate: apiGenerator, name: 'api' }
+      { generate: apiGenerator, name: 'api' },
     ])('should update the folder for %name', async (impactedDDDObject) => {
       const domain = await setup(appTree);
       await impactedDDDObject.generate(appTree, {
