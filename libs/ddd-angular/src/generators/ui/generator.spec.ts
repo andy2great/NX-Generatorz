@@ -115,7 +115,6 @@ describe('domain generator', () => {
     );
   });
 
-  
   describe('when renaming the project', () => {
     it('should update the project name in the angular.json', async () => {
       const ui = await setup(appTree);
@@ -123,9 +122,7 @@ describe('domain generator', () => {
       ui.rename('new name');
       const angularJson = readJson(appTree, 'angular.json');
 
-      expect(angularJson.projects).toHaveProperty(
-        `shared-ui-new-name`
-      );
+      expect(angularJson.projects).toHaveProperty(`shared-ui-new-name`);
     });
 
     it('should rename the project folder', async () => {
@@ -137,9 +134,7 @@ describe('domain generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `shared/ui-new-name`
-      ).forEach((expectedFile) => {
+      generalTestingChanges(`shared/ui-new-name`).forEach((expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       });
     });

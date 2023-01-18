@@ -166,7 +166,6 @@ describe('feature generator', () => {
     );
   });
 
-  
   describe('when renaming the project', () => {
     it('should update the project name in the angular.json', async () => {
       const feature = await setup(appTree);
