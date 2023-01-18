@@ -6,14 +6,19 @@ import {
 } from '@nrwl/devkit';
 import { readProjectConfiguration } from '@nrwl/devkit';
 import { moveGenerator } from '@nrwl/workspace/generators';
+import { domainNameFromProject } from '../helpers/domain-helper';
 
 export abstract class DDDObject {
   abstract readonly prefix: string;
 
-  readonly projectConfig: ProjectConfiguration;
+  projectConfig: ProjectConfiguration;
 
-  constructor(public readonly tree: Tree, public readonly project: string) {
-    this.projectConfig = readProjectConfiguration(this.tree, this.project);
+  constructor(public readonly tree: Tree, public project: string) {
+    this.projectConfig = readProjectConfiguration(this.tree, project);
+  }
+
+  setupProjectConfig(project?: string) {
+    if (!project) return;
   }
 
   async rename(name: string) {
@@ -34,5 +39,11 @@ export abstract class DDDObject {
       updateImportPath: true,
       destination: adjustedPath,
     });
+    this.project = this.makeProjectName(updatedName);
   }
+
+  makeProjectName = (name: string) => {
+    const domainName = domainNameFromProject(this.tree, this.project);
+    return `${domainName}-${this.prefix}-${name}`;
+  };
 }

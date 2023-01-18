@@ -103,7 +103,7 @@ describe('domain generator', () => {
       `${defaultOptions.domain}-shell-${defaultOptions.name}`
     );
     const expectedTags = [
-      `domain:${defaultOptions.domain}-domain`,
+      `domain:${defaultOptions.domain}`,
       'type:shell',
     ];
 

@@ -15,6 +15,13 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "domain:test-area",
+                "onlyDependOnLibsWithTags": [
+                  "domain:test-area",
+                  "domain:shared"
+                ]
               }
             ]
           }

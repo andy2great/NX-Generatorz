@@ -7,6 +7,7 @@ import {
   generalTestingChanges,
   domainProjectChanges,
 } from '../../helpers/test-helper';
+import { Domain } from '../../model';
 
 import generator from './generator';
 
@@ -129,6 +130,19 @@ describe('domain generator', () => {
       `${defaultOptions.name}-domain`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const domain = await setup(appTree);
+
+      domain.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.name}-api-new-name`
+      );
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -136,4 +150,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
   await generator(tree, {
     name,
   });
+  return new Domain(tree, name);
 };
