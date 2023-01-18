@@ -10,8 +10,11 @@ import {
 import { Domain } from '../../model';
 
 import generator from './generator';
+import featureGenerator from '../feature/generator';
+import shellGenerator from '../shell/generator';
+import apiGenerator from '../api/generator';
 
-const defaultOptions = { name: 'test' };
+const defaultOptions = { name: 'test', domain: 'test-area' };
 
 describe('domain generator', () => {
   let appTree: Tree;
@@ -32,7 +35,7 @@ describe('domain generator', () => {
 
     const config = readProjectConfiguration(
       appTree,
-      `${defaultOptions.name}-domain`
+      `${defaultOptions.domain}-domain`
     );
 
     expect(config).toBeDefined();
@@ -70,8 +73,8 @@ describe('domain generator', () => {
     }));
 
     generalProjectChanges(
-      `${defaultOptions.name}-domain`,
-      `${defaultOptions.name}/domain`
+      `${defaultOptions.domain}-domain`,
+      `${defaultOptions.domain}/domain`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
@@ -85,7 +88,7 @@ describe('domain generator', () => {
       path: change.path,
     }));
 
-    domainProjectChanges(`${defaultOptions.name}/domain`).forEach(
+    domainProjectChanges(`${defaultOptions.domain}/domain`).forEach(
       (expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       }
@@ -100,7 +103,7 @@ describe('domain generator', () => {
       path: change.path,
     }));
 
-    generalTestingChanges(`${defaultOptions.name}/domain`).forEach(
+    generalTestingChanges(`${defaultOptions.domain}/domain`).forEach(
       (expectedFile) => {
         expect(changes).toContainEqual(expectedFile);
       }
@@ -112,9 +115,9 @@ describe('domain generator', () => {
 
     const project = readProjectConfiguration(
       appTree,
-      `${defaultOptions.name}-domain`
+      `${defaultOptions.domain}-domain`
     );
-    const expectedTags = [`domain:${defaultOptions.name}`, 'type:domain-logic'];
+    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:domain-logic'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
@@ -127,7 +130,7 @@ describe('domain generator', () => {
     const angularJson = readJson(appTree, 'angular.json');
 
     expect(angularJson.projects).toHaveProperty(
-      `${defaultOptions.name}-domain`
+      `${defaultOptions.domain}-domain`
     );
   });
 
@@ -158,13 +161,37 @@ describe('domain generator', () => {
         expect(changes).toContainEqual(expectedFile);
       });
     });
+
+    it.each([
+      { generate: featureGenerator, name: 'feature' },
+      { generate: shellGenerator, name: 'shell' },
+      { generate: apiGenerator, name: 'api' }
+    ])('should update the folder for %name', async (impactedDDDObject) => {
+      const domain = await setup(appTree);
+      await impactedDDDObject.generate(appTree, {
+        name: defaultOptions.name,
+        domain: `${defaultOptions.domain}-domain`,
+      });
+
+      domain.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(
+        `new-name/${impactedDDDObject.name}-${defaultOptions.name}`
+      ).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
   });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
-  const { name } = options;
+  const { domain } = options;
   await generator(tree, {
-    name,
+    name: domain,
   });
-  return new Domain(tree, `${name}-domain`);
+  return new Domain(tree, `${domain}-domain`);
 };
