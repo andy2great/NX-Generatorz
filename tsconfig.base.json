@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@puffyfish/npm": ["libs/npm/src/index.ts"],
       "@puffyfish/ddd-angular": ["libs/ddd-angular/src/index.ts"]
     }
   },
