@@ -8,6 +8,7 @@ on:
         required: true
         default: ''
 
+
 jobs:
   deploy-new-version:
     runs-on: ubuntu-latest
