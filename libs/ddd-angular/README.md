@@ -1,7 +1,3 @@
-# ddd-angular
+# Generators
 
-This library was generated with [Nx](https://nx.dev).
-
-## Building
-
-Run `nx build ddd-angular` to build the library.
+A collection of generators that follow DDD best practices, with an emphasis on simplicity of options
