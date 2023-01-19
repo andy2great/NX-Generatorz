@@ -1,8 +1,6 @@
 name: Continuous Deployment
 
 on:
-  push:
-    branches: [23-cd-adding-continuous-deployments-to-the-project]
   workflow_dispatch:
     inputs:
       version:
@@ -23,6 +21,9 @@ jobs:
 
       - name: Authenticate to NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_SECRET }}" > ~/.npmrc
+
+      - name: install node modules
+        run: npm i --ignore-scripts
 
       - name: bump package versions
         run: npx nx run-many --target=bump --all=true $version
