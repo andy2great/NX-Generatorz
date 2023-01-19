@@ -3,15 +3,16 @@ name: Continuous Deployment
 on:
   push:
     branches: [23-cd-adding-continuous-deployments-to-the-project]
-
-jobs:
-  deploy-new-version:
-    runs-on: ubuntu-latest
+  workflow_dispatch:
     inputs:
       version:
         description: 'Define the version for the npm repository'     
         required: true
         default: 'prod'
+
+jobs:
+  deploy-new-version:
+    runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
