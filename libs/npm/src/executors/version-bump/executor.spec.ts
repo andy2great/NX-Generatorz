@@ -15,9 +15,13 @@ const setupCustomLib = async (
   name = defaultOptions.name,
   publishable = true
 ): Promise<ExecutorContext> => {
-  await libraryGenerator(tree, { name, publishable, importPath: publishable ? '@test-area/test' : undefined });
+  await libraryGenerator(tree, {
+    name,
+    publishable,
+    importPath: publishable ? '@test-area/test' : undefined,
+  });
 
-  const project =  readProjectConfiguration(tree, name);
+  const project = readProjectConfiguration(tree, name);
 
   return {
     projectName: name,
@@ -29,8 +33,8 @@ const setupCustomLib = async (
       projects: {
         [name]: project,
       },
-    }
-  }
+    },
+  };
 };
 
 describe('VersionBump Executor', () => {
@@ -43,30 +47,49 @@ describe('VersionBump Executor', () => {
 
   it('should throw an error if no version is specified', async () => {
     const executorContext = await setupCustomLib(appTree);
-    
-    await expect(executor({ ...options, _: [] }, executorContext)).rejects.toThrow();
+
+    await expect(
+      executor({ ...options, _: [] }, executorContext)
+    ).rejects.toThrow();
   });
 
   it('should throw an error if no project name is found in context', async () => {
     const executorContext = await setupCustomLib(appTree);
 
-    await expect(executor({ ...options, _: ['1.0.0'] }, { ...executorContext, projectName: '' })).rejects.toThrow();
+    await expect(
+      executor(
+        { ...options, _: ['1.0.0'] },
+        { ...executorContext, projectName: '' }
+      )
+    ).rejects.toThrow();
   });
 
   it('should throw an error if an invalid version is specified', async () => {
     const executorContext = await setupCustomLib(appTree);
 
-    await expect(executor({ ...options, _: ['abc'] }, executorContext)).rejects.toThrow();
+    await expect(
+      executor({ ...options, _: ['abc'] }, executorContext)
+    ).rejects.toThrow();
   });
 
   it('should update the version in the package.json', async () => {
     const executorContext = await setupCustomLib(appTree);
-    const readFileSyncMock = jest.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify({ version: '0.0.0'}));
-    const writeFileSyncMock = jest.spyOn(fs, 'writeFileSync').mockReturnValue(void 0);
-    
+    const readFileSyncMock = jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValue(JSON.stringify({ version: '0.0.0' }));
+    const writeFileSyncMock = jest
+      .spyOn(fs, 'writeFileSync')
+      .mockReturnValue(void 0);
+
     await executor({ ...options, _: ['1.0.0'] }, executorContext);
 
-    expect(readFileSyncMock).toHaveBeenCalledWith(`libs/${defaultOptions.name}/package.json`, 'utf8');
-    expect(writeFileSyncMock).toHaveBeenCalledWith(`libs/${defaultOptions.name}/package.json`, JSON.stringify({ version: '1.0.0' }, null, 2));
+    expect(readFileSyncMock).toHaveBeenCalledWith(
+      `libs/${defaultOptions.name}/package.json`,
+      'utf8'
+    );
+    expect(writeFileSyncMock).toHaveBeenCalledWith(
+      `libs/${defaultOptions.name}/package.json`,
+      JSON.stringify({ version: '1.0.0' }, null, 2)
+    );
   });
 });
