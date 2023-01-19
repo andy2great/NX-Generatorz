@@ -8,7 +8,6 @@ on:
         required: true
         default: ''
 
-
 jobs:
   deploy-new-version:
     runs-on: ubuntu-latest
@@ -27,7 +26,7 @@ jobs:
         run: npm i --ignore-scripts
 
       - name: bump package versions
-        run: npx nx run-many --target=bump --all=true $version
+        run: npx nx run-many --target=bump --all=true ${{ github.events.inputs.version }}
 
       - name: push changes
         shell: bash
