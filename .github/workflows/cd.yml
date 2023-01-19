@@ -13,8 +13,6 @@ jobs:
         required: true
         default: 'prod'
     steps:
-      - attach_workspace:
-          at: /home/circleci/repo/
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,8 +20,11 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
       
-      - name: authenticate with npm
-        run: echo '//registry.npmjs.org/:_authToken=${NPM_SECRET}' > /home/circleci/repo/.npmrc
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_SECRET}" > ~/rep
 
       - name: bump package versions
         run: npx nx run-many --target=bump --all=true $version
