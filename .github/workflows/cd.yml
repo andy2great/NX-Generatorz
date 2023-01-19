@@ -19,12 +19,9 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_SECRET}" > ~/rep
+
+      - name: Authenticate to NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_SECRET }}" > ~/.npmrc
 
       - name: bump package versions
         run: npx nx run-many --target=bump --all=true $version
