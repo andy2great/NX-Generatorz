@@ -5,11 +5,6 @@
   "title": "VersionBump executor",
   "description": "",
   "type": "object",
-  "properties": {
-    "version": {
-      "type": "string",
-      "description": "The version to bump to."
-    }
-  },
+  "properties": {},
   "required": []
 }
