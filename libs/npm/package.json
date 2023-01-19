@@ -1,5 +1,5 @@
 {
-  "name": "@nx-generatorz/npm",
+  "name": "@puffyfish/npm",
   "version": "3.0.6",
   "type": "commonjs",
   "executors": "executors.json"
