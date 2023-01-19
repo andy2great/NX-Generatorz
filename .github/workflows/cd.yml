@@ -26,7 +26,7 @@ jobs:
         run: npm i --ignore-scripts
 
       - name: bump package versions
-        run: npx nx run-many --target=bump --all=true ${{ github.events.inputs.version }}
+        run: npx nx run-many --target=bump --all=true ${{ github.events.input.version }}
 
       - name: push changes
         shell: bash
