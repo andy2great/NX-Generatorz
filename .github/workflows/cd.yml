@@ -1,0 +1,9 @@
+name: Continuous Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Define the version for the npm repository'     
+        required: true
+        default: ''
