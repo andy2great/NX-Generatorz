@@ -1,23 +1,18 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "DddUi",
+  "$id": "DomainUi",
   "title": "",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the ui",
+      "description": "",
       "$default": {
         "$source": "argv",
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
-    },
-    "shared": {
-      "type": "boolean",
-      "description": "Does it belong to a domain?",
-      "default": true
     },
     "domain": {
       "type": "string",
@@ -28,5 +23,5 @@
       }
     }
   },
-  "required": ["name"]
+  "required": ["name", "domain"]
 }

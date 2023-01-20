@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nx-generatorz/bamboo/domain": ["libs/bamboo/domain/src/index.ts"],
       "@puffyfish/ddd-angular": ["libs/ddd-angular/src/index.ts"]
     }
   },
