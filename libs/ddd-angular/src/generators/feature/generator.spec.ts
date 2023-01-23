@@ -97,7 +97,7 @@ describe('feature generator', () => {
       {
         path: `libs/${defaultOptions.domain}/domain/src/lib/application/${defaultOptions.name}.facade.ts`,
         type: 'CREATE',
-      }
+      },
     ];
     await setup(appTree);
 
