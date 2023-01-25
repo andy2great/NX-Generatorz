@@ -7,3 +7,35 @@ on:
         description: 'Define the version for the npm repository'     
         required: true
         default: ''
+
+jobs:
+  deploy-new-version:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Authenticate to NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_SECRET }}" > ~/.npmrc
+
+      - name: install node modules
+        run: npm i --ignore-scripts
+
+      - name: bump package versions
+        run: npx nx run-many --target=bump --all=true ${{ github.event.inputs.version }}
+
+      - name: push changes
+        shell: bash
+        run: |
+          git config --global user.email "puffyfish@gmail.com"
+          git config --global user.name "puffyfish"
+          git add .
+          git commit -m "bumping versions"
+          git push
+      
+      - name: publish new packages
+        run: npx nx run-many --target=deploy --all=true

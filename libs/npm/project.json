@@ -58,6 +58,13 @@
     },
     "bump": {
       "executor": "@puffyfish/npm:version-bump"
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "dist-folder-path": "dist/libs/npm"
+      }
     }
   },
   "tags": []

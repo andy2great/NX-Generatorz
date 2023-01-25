@@ -8,6 +8,7 @@ import {
   generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
+import { Util } from '../../model';
 
 const defaultOptions = { name: 'test' };
 
@@ -113,6 +114,31 @@ describe('util generator', () => {
       `shared-util-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const util = await setup(appTree);
+
+      util.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(`shared-util-new-name`);
+    });
+
+    it('should rename the project folder', async () => {
+      const util = await setup(appTree);
+
+      util.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(`shared/util-new-name`).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -120,4 +146,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
   await generator(tree, {
     name,
   });
+  return new Util(tree, `shared-util-${name}`);
 };

@@ -1,5 +1,5 @@
 {
-  "npmScope": "nx-generatorz",
+  "npmScope": "puffyfish",
   "affected": {
     "defaultBase": "main"
   },
@@ -11,7 +11,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "NjM1ZjdjYmYtYWFiZi00Yzc1LWE4OTAtNDA3ZDhiN2JmYTZlfHJlYWQtd3JpdGU="
+        "accessToken": "YTg0NmZlYTAtNGE3My00MzE3LTlmNmQtOTZhOTZhZGMwMWI5fHJlYWQtd3JpdGU="
       }
     }
   },
@@ -33,6 +33,9 @@
   "defaultProject": "ddd-angular",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
+    "deploy": {
+      "dependsOn": ["build"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]

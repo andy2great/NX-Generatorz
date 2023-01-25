@@ -2,7 +2,13 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
 import generator from './generator';
-import { changeIs, generalProjectChanges, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
+import {
+  changeIs,
+  generalProjectChanges,
+  generalTestingChanges,
+  nxFiles,
+} from '../../helpers/test-helper';
+import { UI } from '../../model';
 
 const defaultOptions = { name: 'test' };
 
@@ -108,6 +114,31 @@ describe('shared-ui generator', () => {
       `shared-ui-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const ui = await setup(appTree);
+
+      ui.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(`shared-ui-new-name`);
+    });
+
+    it('should rename the project folder', async () => {
+      const ui = await setup(appTree);
+
+      ui.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(`shared/ui-new-name`).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -115,4 +146,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
   await generator(tree, {
     name,
   });
+  return new UI(tree, `shared-ui-${name}`);
 };
