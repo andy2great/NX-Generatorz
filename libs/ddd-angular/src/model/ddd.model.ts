@@ -6,6 +6,7 @@ import {
 } from '@nrwl/devkit';
 import { readProjectConfiguration } from '@nrwl/devkit';
 import { moveGenerator } from '@nrwl/workspace/generators';
+import * as path from 'path';
 
 export abstract class DDDObject {
   abstract readonly prefix: string;
@@ -29,7 +30,7 @@ export abstract class DDDObject {
       throw new Error('Invalid project name');
     }
 
-    const pathWithoutRoot = root.substring(0, root.lastIndexOf('/') + 1);
+    const pathWithoutRoot = path.basename(root);
     const pathWithoutLibsDir = pathWithoutRoot.substring(libsDir.length + 1);
     const adjustedPath = `${pathWithoutLibsDir}${this.prefix}-${updatedName}`;
 

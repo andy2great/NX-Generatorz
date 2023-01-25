@@ -16,9 +16,12 @@
     },
     "rename": {
       "type": "string",
-      "description": "The new name of the targeted folder",
+      "description": "The new name of the targeted project",
       "x-prompt": "What name would you like to rename the project to?"
     }
   },
-  "required": ["project", "rename"]
+  "required": [
+    "project",
+    "rename"
+  ]
 }
