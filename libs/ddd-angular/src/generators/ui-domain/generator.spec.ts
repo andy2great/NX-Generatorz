@@ -4,10 +4,14 @@ import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import domainGenerator from '../domain/generator';
 import generator from './generator';
 import { DomainUiGeneratorSchema } from './schema';
-import { changeIs, generalProjectChanges, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
+import {
+  changeIs,
+  generalProjectChanges,
+  generalTestingChanges,
+  nxFiles,
+} from '../../helpers/test-helper';
 
 const defaultOptions = { domain: 'testing-area', name: 'test' };
-
 
 describe('domain-ui generator', () => {
   let appTree: Tree;
@@ -131,4 +135,3 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     domain: `${domain}-domain`,
   });
 };
-
