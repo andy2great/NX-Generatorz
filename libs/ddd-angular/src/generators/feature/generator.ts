@@ -12,11 +12,11 @@ export default async function (tree: Tree, options: DddFeatureGeneratorSchema) {
   const domainName = domainNameFromProject(tree, options.domain);
 
   await dddFeatureGenerator(tree, {
-    name: `feature-${options.name}`,
+    name: options.name,
+    prefix: true,
     domain: domainName,
     noApp: true,
     standalone: false,
-    entity: options.name,
     type: 'buildable',
   });
   removeFiles(tree, `${domainName}-feature-${options.name}`);

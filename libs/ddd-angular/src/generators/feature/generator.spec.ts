@@ -9,6 +9,7 @@ import {
   generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
+import { Feature } from '../../model';
 
 const defaultOptions = { domain: 'testing-area', name: 'test' };
 
@@ -93,38 +94,18 @@ describe('feature generator', () => {
   });
 
   it('should generate a default facade, model, data-service, and component in the domain', async () => {
+    const expectedChanges = [
+      {
+        path: `libs/${defaultOptions.domain}/domain/src/lib/application/${defaultOptions.name}.facade.ts`,
+        type: 'CREATE',
+      },
+    ];
     await setup(appTree);
 
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
-    const expectedChanges = [
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/application/feature-${defaultOptions.name}.facade.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/entities/${defaultOptions.name}.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/infrastructure/${defaultOptions.name}.data.service.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.html`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.scss`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.ts`,
-        type: 'CREATE',
-      },
-    ];
 
     expectedChanges.forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
@@ -164,6 +145,35 @@ describe('feature generator', () => {
       `${defaultOptions.domain}-feature-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const feature = await setup(appTree);
+
+      feature.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.domain}-feature-new-name`
+      );
+    });
+
+    it('should rename the project folder', async () => {
+      const feature = await setup(appTree);
+
+      feature.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(
+        `${defaultOptions.domain}/feature-new-name`
+      ).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -172,4 +182,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
+  return new Feature(tree, `${domain}-feature-${name}`);
 };
