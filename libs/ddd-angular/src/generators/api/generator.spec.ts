@@ -9,6 +9,7 @@ import {
   generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
+import { API } from '../../model';
 
 const defaultOptions = { domain: 'test-area', name: 'test' };
 
@@ -125,6 +126,35 @@ describe('api generator', () => {
       `${defaultOptions.domain}-api-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const api = await setup(appTree);
+
+      api.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.domain}-api-new-name`
+      );
+    });
+
+    it('should rename the project folder', async () => {
+      const api = await setup(appTree);
+
+      api.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(`${defaultOptions.domain}/api-new-name`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -133,4 +163,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
+  return new API(tree, `${domain}-api-${name}`);
 };
