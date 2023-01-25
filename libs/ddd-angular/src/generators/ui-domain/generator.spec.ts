@@ -134,7 +134,9 @@ describe('domain-ui generator', () => {
       ui.rename('new name');
       const angularJson = readJson(appTree, 'angular.json');
 
-      expect(angularJson.projects).toHaveProperty(`${defaultOptions.domain}-ui-new-name`);
+      expect(angularJson.projects).toHaveProperty(
+        `${defaultOptions.domain}-ui-new-name`
+      );
     });
 
     it('should rename the project folder', async () => {
@@ -146,9 +148,11 @@ describe('domain-ui generator', () => {
         path: change.path,
       }));
 
-      generalTestingChanges(`${defaultOptions.domain}/ui-new-name`).forEach((expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      });
+      generalTestingChanges(`${defaultOptions.domain}/ui-new-name`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
     });
   });
 });
