@@ -1,18 +1,12 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
-import domainGenerator from '../domain/generator';
 import generator from './generator';
-import {
-  changeIs,
-  generalProjectChanges,
-  generalTestingChanges,
-  nxFiles,
-} from '../../helpers/test-helper';
+import { changeIs, generalProjectChanges, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
 
-const defaultOptions = { domain: 'testing-area', name: 'test' };
+const defaultOptions = { name: 'test' };
 
-describe('feature generator', () => {
+describe('shared-ui generator', () => {
   let appTree: Tree;
 
   beforeEach(async () => {
@@ -24,15 +18,14 @@ describe('feature generator', () => {
         projects: {},
       })
     );
-    await domainGenerator(appTree, { name: defaultOptions.domain });
   });
 
-  it('should generate a feature', async () => {
+  it('should generate a ui-shared', async () => {
     await setup(appTree);
 
     const config = readProjectConfiguration(
       appTree,
-      `${defaultOptions.domain}-feature-test`
+      'shared-ui-test'
     );
 
     expect(config).toBeDefined();
@@ -70,8 +63,8 @@ describe('feature generator', () => {
     }));
 
     generalProjectChanges(
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`,
-      `${defaultOptions.domain}/feature-${defaultOptions.name}`
+      `shared-ui-${defaultOptions.name}`,
+      `shared/ui-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
@@ -86,53 +79,24 @@ describe('feature generator', () => {
     }));
 
     generalTestingChanges(
-      `${defaultOptions.domain}/feature-${defaultOptions.name}`
+      `shared/ui-${defaultOptions.name}`
     ).forEach((expectedFile) => {
       expect(changes).toContainEqual(expectedFile);
     });
   });
 
-  it('should generate a default facade, model, data-service, and component in the domain', async () => {
-    const expectedChanges = [
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/application/${defaultOptions.name}.facade.ts`,
-        type: 'CREATE',
-      },
-    ];
-    await setup(appTree);
-
-    const changes = appTree.listChanges().map((change) => ({
-      type: change.type,
-      path: change.path,
-    }));
-
-    expectedChanges.forEach((expectedChange) => {
-      expect(changes).toContainEqual(expectedChange);
-    });
-  });
-
-  it("should generate the correct tags in the feature's project.json", async () => {
+  it("should generate the correct tags in the ui's project.json", async () => {
     await setup(appTree);
 
     const project = readProjectConfiguration(
       appTree,
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`
+      `shared-ui-${defaultOptions.name}`
     );
-    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:feature'];
+    const expectedTags = [`domain:shared`, 'type:ui'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
     });
-  });
-
-  it('should throw an error if the project is not a domain', async () => {
-    const creationCall = async () =>
-      await setup(appTree, {
-        domain: 'non-existent domain',
-        name: 'new test',
-      });
-
-    await expect(creationCall).rejects.toThrow();
   });
 
   it('should add the new project to angular.json', async () => {
@@ -141,15 +105,14 @@ describe('feature generator', () => {
     const angularJson = readJson(appTree, 'angular.json');
 
     expect(angularJson.projects).toHaveProperty(
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`
+      `shared-ui-${defaultOptions.name}`
     );
   });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
-  const { name, domain } = options;
+  const { name } = options;
   await generator(tree, {
     name,
-    domain: `${domain}-domain`,
   });
 };

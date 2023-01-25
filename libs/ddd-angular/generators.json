@@ -10,14 +10,14 @@
       "schema": "./src/generators/feature/schema.json",
       "description": "Simplification of the DDD feature generator from angular architects"
     },
-    "domain-ui": {
-      "factory": "./src/generators/domain-ui/generator",
-      "schema": "./src/generators/domain-ui/schema.json",
+    "ui-domain": {
+      "factory": "./src/generators/ui-domain/generator",
+      "schema": "./src/generators/ui-domain/schema.json",
       "description": "Simplification of the DDD UI generator from angular architects. Create a UI for a specific domain."
     },
-    "shared-ui": {
-      "factory": "./src/generators/shared-ui/generator",
-      "schema": "./src/generators/shared-ui/schema.json",
+    "ui-shared": {
+      "factory": "./src/generators/ui-shared/generator",
+      "schema": "./src/generators/ui-shared/schema.json",
       "description": "Simplification of the DDD UI generator from angular architects. Create a UI shared across all domain."
     },
     "ui": {
