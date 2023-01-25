@@ -5,7 +5,10 @@ import domainGenerator from '../domain/generator';
 import renameGenerator from './generator';
 import { libraryGenerator } from '@nrwl/angular/generators';
 
-const defaultOptions = { domain: 'test-area', name: 'test' };
+const defaultOptions = {
+  domain: 'test-area',
+  name: 'test',
+};
 
 const setupWithDomain = async (tree: Tree, options = defaultOptions) => {
   const { domain } = options;
@@ -18,7 +21,11 @@ const setupCustomLib = async (
   name = defaultOptions.name,
   tag = ''
 ) => {
-  await libraryGenerator(tree, { name, tags: tag });
+  await libraryGenerator(tree, {
+    name,
+    tags: tag,
+    directory: defaultOptions.domain,
+  });
 };
 
 describe('rename generator', () => {
@@ -48,7 +55,7 @@ describe('rename generator', () => {
 
     await expect(
       renameGenerator(appTree, {
-        project: defaultOptions.name,
+        project: `${defaultOptions.domain}-${defaultOptions.name}`,
         rename: 'another-name',
       })
     ).rejects.toThrowError();
@@ -70,7 +77,7 @@ describe('rename generator', () => {
 
     await expect(
       renameGenerator(appTree, {
-        project: defaultOptions.name,
+        project: `${defaultOptions.domain}-${defaultOptions.name}`,
         rename: 'another-name',
       })
     ).resolves.not.toThrowError();

@@ -33,6 +33,9 @@
   "defaultProject": "ddd-angular",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
+    "deploy": {
+      "dependsOn": ["build"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
