@@ -2,6 +2,6 @@
   "version": 2,
   "projects": {
     "ddd-angular": "libs/ddd-angular",
-    "bamboo-domain": "libs/bamboo/domain"
+    "npm": "libs/npm"
   }
 }
