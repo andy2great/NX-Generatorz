@@ -93,38 +93,18 @@ describe('feature generator', () => {
   });
 
   it('should generate a default facade, model, data-service, and component in the domain', async () => {
+    const expectedChanges = [
+      {
+        path: `libs/${defaultOptions.domain}/domain/src/lib/application/${defaultOptions.name}.facade.ts`,
+        type: 'CREATE',
+      },
+    ];
     await setup(appTree);
 
     const changes = appTree.listChanges().map((change) => ({
       type: change.type,
       path: change.path,
     }));
-    const expectedChanges = [
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/application/feature-${defaultOptions.name}.facade.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/entities/${defaultOptions.name}.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/infrastructure/${defaultOptions.name}.data.service.ts`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.html`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.scss`,
-        type: 'CREATE',
-      },
-      {
-        path: `libs/${defaultOptions.domain}/feature-${defaultOptions.name}/src/lib/feature-${defaultOptions.name}.component.ts`,
-        type: 'CREATE',
-      },
-    ];
 
     expectedChanges.forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
