@@ -3,8 +3,8 @@ import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 
 import domainGenerator from '../domain/generator';
 import generator from './generator';
-import { DomainUiGeneratorSchema } from './schema';
 import { changeIs, generalProjectChanges, generalTestingChanges, nxFiles } from '../../helpers/test-helper';
+import { UI } from '../../model';
 
 const defaultOptions = { domain: 'testing-area', name: 'test' };
 
@@ -122,6 +122,31 @@ describe('domain-ui generator', () => {
       `${defaultOptions.domain}-ui-${defaultOptions.name}`
     );
   });
+
+  describe('when renaming the project', () => {
+    it('should update the project name in the angular.json', async () => {
+      const ui = await setup(appTree);
+
+      ui.rename('new name');
+      const angularJson = readJson(appTree, 'angular.json');
+
+      expect(angularJson.projects).toHaveProperty(`${defaultOptions.domain}-ui-new-name`);
+    });
+
+    it('should rename the project folder', async () => {
+      const ui = await setup(appTree);
+
+      ui.rename('new name');
+      const changes = appTree.listChanges().map((change) => ({
+        type: change.type,
+        path: change.path,
+      }));
+
+      generalTestingChanges(`${defaultOptions.domain}/ui-new-name`).forEach((expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      });
+    });
+  });
 });
 
 const setup = async (tree: Tree, options = defaultOptions) => {
@@ -130,5 +155,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
+  return new UI(tree, `${domain}-ui-${name}`);
 };
-
