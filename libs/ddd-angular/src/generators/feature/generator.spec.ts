@@ -106,8 +106,6 @@ describe('feature generator', () => {
       path: change.path,
     }));
 
-    console.log(changes);
-
     expectedChanges.forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
