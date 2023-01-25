@@ -30,7 +30,7 @@ export abstract class DDDObject {
       throw new Error('Invalid project name');
     }
 
-    const pathWithoutRoot = path.basename(root);
+    const pathWithoutRoot = `${path.dirname(root)}/`;
     const pathWithoutLibsDir = pathWithoutRoot.substring(libsDir.length + 1);
     const adjustedPath = `${pathWithoutLibsDir}${this.prefix}-${updatedName}`;
 
