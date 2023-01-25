@@ -29,10 +29,7 @@ describe('shared-ui generator', () => {
   it('should generate a ui-shared', async () => {
     await setup(appTree);
 
-    const config = readProjectConfiguration(
-      appTree,
-      'shared-ui-test'
-    );
+    const config = readProjectConfiguration(appTree, 'shared-ui-test');
 
     expect(config).toBeDefined();
   });
@@ -84,11 +81,11 @@ describe('shared-ui generator', () => {
       path: change.path,
     }));
 
-    generalTestingChanges(
-      `shared/ui-${defaultOptions.name}`
-    ).forEach((expectedFile) => {
-      expect(changes).toContainEqual(expectedFile);
-    });
+    generalTestingChanges(`shared/ui-${defaultOptions.name}`).forEach(
+      (expectedFile) => {
+        expect(changes).toContainEqual(expectedFile);
+      }
+    );
   });
 
   it("should generate the correct tags in the ui's project.json", async () => {
