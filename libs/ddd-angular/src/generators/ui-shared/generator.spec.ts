@@ -12,7 +12,7 @@ import { UI } from '../../model';
 
 const defaultOptions = { name: 'test' };
 
-describe('domain generator', () => {
+describe('shared-ui generator', () => {
   let appTree: Tree;
 
   beforeEach(async () => {
@@ -26,13 +26,10 @@ describe('domain generator', () => {
     );
   });
 
-  it('should generate a shared UI', async () => {
+  it('should generate a ui-shared', async () => {
     await setup(appTree);
 
-    const config = readProjectConfiguration(
-      appTree,
-      `shared-ui-${defaultOptions.name}`
-    );
+    const config = readProjectConfiguration(appTree, 'shared-ui-test');
 
     expect(config).toBeDefined();
   });
@@ -76,7 +73,7 @@ describe('domain generator', () => {
     });
   });
 
-  it('should contain testing files', async () => {
+  it('should contain files related to testing', async () => {
     await setup(appTree);
 
     const changes = appTree.listChanges().map((change) => ({
@@ -91,14 +88,14 @@ describe('domain generator', () => {
     );
   });
 
-  it("should generate the correct tags in the UI's project.json", async () => {
+  it("should generate the correct tags in the ui's project.json", async () => {
     await setup(appTree);
 
     const project = readProjectConfiguration(
       appTree,
       `shared-ui-${defaultOptions.name}`
     );
-    const expectedTags = ['domain:shared', 'type:ui'];
+    const expectedTags = [`domain:shared`, 'type:ui'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);

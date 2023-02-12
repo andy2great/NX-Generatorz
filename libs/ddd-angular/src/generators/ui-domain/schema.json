@@ -1,19 +1,27 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "DddUi",
+  "$id": "DomainUi",
   "title": "",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the ui",
+      "description": "",
       "$default": {
         "$source": "argv",
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
+    },
+    "domain": {
+      "type": "string",
+      "description": "The domain to add the ui",
+      "x-prompt": "What domain would you like to use?",
+      "$default": {
+        "$source": "projectName"
+      }
     }
   },
-  "required": ["name"]
+  "required": ["name", "domain"]
 }

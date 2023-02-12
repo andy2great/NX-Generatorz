@@ -9,11 +9,11 @@ import {
   generalTestingChanges,
   nxFiles,
 } from '../../helpers/test-helper';
-import { Feature } from '../../model';
+import { UI } from '../../model/ui.model';
 
 const defaultOptions = { domain: 'testing-area', name: 'test' };
 
-describe('feature generator', () => {
+describe('domain-ui generator', () => {
   let appTree: Tree;
 
   beforeEach(async () => {
@@ -28,12 +28,12 @@ describe('feature generator', () => {
     await domainGenerator(appTree, { name: defaultOptions.domain });
   });
 
-  it('should generate a feature', async () => {
+  it('should generate a ui-domain', async () => {
     await setup(appTree);
 
     const config = readProjectConfiguration(
       appTree,
-      `${defaultOptions.domain}-feature-test`
+      `${defaultOptions.domain}-ui-test`
     );
 
     expect(config).toBeDefined();
@@ -71,8 +71,8 @@ describe('feature generator', () => {
     }));
 
     generalProjectChanges(
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`,
-      `${defaultOptions.domain}/feature-${defaultOptions.name}`
+      `${defaultOptions.domain}-ui-${defaultOptions.name}`,
+      `${defaultOptions.domain}/ui-${defaultOptions.name}`
     ).forEach((expectedChange) => {
       expect(changes).toContainEqual(expectedChange);
     });
@@ -87,39 +87,20 @@ describe('feature generator', () => {
     }));
 
     generalTestingChanges(
-      `${defaultOptions.domain}/feature-${defaultOptions.name}`
+      `${defaultOptions.domain}/ui-${defaultOptions.name}`
     ).forEach((expectedFile) => {
       expect(changes).toContainEqual(expectedFile);
     });
   });
 
-  it('should generate a default facade, model, data-service, and component in the domain', async () => {
-    const expectedChanges = [
-      {
-        path: `libs/${defaultOptions.domain}/domain/src/lib/application/${defaultOptions.name}.facade.ts`,
-        type: 'CREATE',
-      },
-    ];
-    await setup(appTree);
-
-    const changes = appTree.listChanges().map((change) => ({
-      type: change.type,
-      path: change.path,
-    }));
-
-    expectedChanges.forEach((expectedChange) => {
-      expect(changes).toContainEqual(expectedChange);
-    });
-  });
-
-  it("should generate the correct tags in the feature's project.json", async () => {
+  it("should generate the correct tags in the ui's project.json", async () => {
     await setup(appTree);
 
     const project = readProjectConfiguration(
       appTree,
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`
+      `${defaultOptions.domain}-ui-${defaultOptions.name}`
     );
-    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:feature'];
+    const expectedTags = [`domain:${defaultOptions.domain}`, 'type:ui'];
 
     expectedTags.forEach((tag) => {
       expect(project.tags).toContain(tag);
@@ -142,36 +123,36 @@ describe('feature generator', () => {
     const angularJson = readJson(appTree, 'angular.json');
 
     expect(angularJson.projects).toHaveProperty(
-      `${defaultOptions.domain}-feature-${defaultOptions.name}`
+      `${defaultOptions.domain}-ui-${defaultOptions.name}`
     );
   });
 
   describe('when renaming the project', () => {
     it('should update the project name in the angular.json', async () => {
-      const feature = await setup(appTree);
+      const ui = await setup(appTree);
 
-      feature.rename('new name');
+      ui.rename('new name');
       const angularJson = readJson(appTree, 'angular.json');
 
       expect(angularJson.projects).toHaveProperty(
-        `${defaultOptions.domain}-feature-new-name`
+        `${defaultOptions.domain}-ui-new-name`
       );
     });
 
     it('should rename the project folder', async () => {
-      const feature = await setup(appTree);
+      const ui = await setup(appTree);
 
-      feature.rename('new name');
+      ui.rename('new name');
       const changes = appTree.listChanges().map((change) => ({
         type: change.type,
         path: change.path,
       }));
 
-      generalTestingChanges(
-        `${defaultOptions.domain}/feature-new-name`
-      ).forEach((expectedFile) => {
-        expect(changes).toContainEqual(expectedFile);
-      });
+      generalTestingChanges(`${defaultOptions.domain}/ui-new-name`).forEach(
+        (expectedFile) => {
+          expect(changes).toContainEqual(expectedFile);
+        }
+      );
     });
   });
 });
@@ -182,5 +163,5 @@ const setup = async (tree: Tree, options = defaultOptions) => {
     name,
     domain: `${domain}-domain`,
   });
-  return new Feature(tree, `${domain}-feature-${name}`);
+  return new UI(tree, `${domain}-ui-${name}`);
 };
