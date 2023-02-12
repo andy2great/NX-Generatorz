@@ -15,10 +15,6 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
-              },
-              {
-                "sourceTag": "domain:bamboo",
-                "onlyDependOnLibsWithTags": ["domain:bamboo", "domain:shared"]
               }
             ]
           }
