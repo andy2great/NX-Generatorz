@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@puffyfish/ddd-angular",
-  "version": "0.0.0",
+  "version": "15.0.0",
   "peerDependencies": {
     "@angular-architects/ddd": "^3.0.0",
     "@nrwl/angular": "^15.0.0",
